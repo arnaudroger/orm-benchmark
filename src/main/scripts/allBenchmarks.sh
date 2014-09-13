@@ -41,7 +41,7 @@ $JAVACMD static $*
 $JAVACMD dynamic $*
 $JAVACMD dynamicNoAsm $*
 $JAVACMD sql2o $*
-$JAVACMD rowmapper $*
+#$JAVACMD rowmapper $*
 $JAVACMD hibernate $*
 $JAVACMD ibatis $*
 
