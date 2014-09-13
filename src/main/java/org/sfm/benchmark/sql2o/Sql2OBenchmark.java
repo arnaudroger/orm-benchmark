@@ -27,7 +27,7 @@ public class Sql2OBenchmark implements QueryExecutor {
 		
 		org.sql2o.Connection conn = sql2o.open();
 		try  {
-			List<?> list = conn.createQuery(JDBCHelper.query(target, limit)).addColumnMapping("YEAR_STARTED", "yearStarted").executeAndFetch(target);
+			List<?> list = conn.createQuery(JDBCHelper.query(limit)).addColumnMapping("YEAR_STARTED", "yearStarted").executeAndFetch(target);
 			for(Object o : list) {
 				ql.object(o);
 			}

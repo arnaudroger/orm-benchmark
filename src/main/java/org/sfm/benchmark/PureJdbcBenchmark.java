@@ -9,21 +9,19 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.jdbc.DbHelper;
 
 
-public class PureJdbcBenchmark<T> implements QueryExecutor {
+public class PureJdbcBenchmark implements QueryExecutor {
 
 	final Connection conn;
-	final Class<T> target;
-	final RowMapper<T> mapper; 
+	final RowMapper<?> mapper; 
 	
-	public PureJdbcBenchmark(Connection conn, Class<T> target) throws NoSuchMethodException, SecurityException {
+	public PureJdbcBenchmark(Connection conn) throws NoSuchMethodException, SecurityException {
 		this.conn = conn;
-		this.target = target;
-		this.mapper = JDBCHelper.mapper(target);
+		this.mapper = JDBCHelper.mapper();
 	}
 	
 	@Override
 	public final void forEach(final ForEachListener ql, int limit) throws Exception {
-		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(target, limit));
+		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(limit));
 		try {
 			ResultSet rs = ps.executeQuery();
 			
@@ -39,7 +37,7 @@ public class PureJdbcBenchmark<T> implements QueryExecutor {
 
 	private void forEach(ResultSet rs, final ForEachListener ql) throws SQLException, Exception {
 		while(rs.next()) {
-			T o = mapper.map(rs);
+			Object o = mapper.map(rs);
 			ql.object(o);
 		}
 	}

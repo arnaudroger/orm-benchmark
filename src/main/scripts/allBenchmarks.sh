@@ -26,7 +26,9 @@ $HOME/.m2/repository/org/springframework/spring-jdbc/4.0.6.RELEASE/spring-jdbc-4
 $HOME/.m2/repository/org/springframework/spring-beans/4.0.6.RELEASE/spring-beans-4.0.6.RELEASE.jar:\
 $HOME/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:\
 $HOME/.m2/repository/org/springframework/spring-core/4.0.6.RELEASE/spring-core-4.0.6.RELEASE.jar:\
-$HOME/.m2/repository/org/springframework/spring-tx/4.0.6.RELEASE/spring-tx-4.0.6.RELEASE.jar
+$HOME/.m2/repository/org/springframework/spring-tx/4.0.6.RELEASE/spring-tx-4.0.6.RELEASE.jar:\
+$HOME/.m2/repository/com/github/arnaudroger/simpleFlatMapper/0.9.3-SNAPSHOT/simpleFlatMapper-0.9.3-SNAPSHOT.jar
+
 #JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder" 
 #JAVA_OPTS="-XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly"
 

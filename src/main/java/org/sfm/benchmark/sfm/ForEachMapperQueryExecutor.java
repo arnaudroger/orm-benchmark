@@ -14,19 +14,17 @@ public class ForEachMapperQueryExecutor<T> implements QueryExecutor {
 
 	final JdbcMapper<T> mapper;
 	final  Connection conn;
-	final Class<T> target;
 	
 	
 	public ForEachMapperQueryExecutor(JdbcMapper<T> mapper,
-			Connection conn, Class<T> target) {
+			Connection conn) {
 		super();
 		this.mapper = mapper;
 		this.conn = conn;
-		this.target = target;
 	}
 	
 	public final void forEach(final ForEachListener ql, int limit) throws Exception {
-		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(target, limit));
+		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(limit));
 		
 		try {
 			ResultSet rs = ps.executeQuery();

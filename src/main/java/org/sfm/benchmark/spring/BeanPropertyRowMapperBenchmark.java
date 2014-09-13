@@ -25,7 +25,7 @@ public class BeanPropertyRowMapperBenchmark<T> implements QueryExecutor {
 
 	@Override
 	public void forEach(ForEachListener ql, int limit) throws Exception {
-		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(target, limit));
+		PreparedStatement ps = conn.prepareStatement(JDBCHelper.query(limit));
 		
 		try {
 			ResultSet rs = ps.executeQuery();

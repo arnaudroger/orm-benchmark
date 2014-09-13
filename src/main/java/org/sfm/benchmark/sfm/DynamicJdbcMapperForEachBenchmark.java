@@ -11,7 +11,7 @@ import org.sfm.jdbc.JdbcMapperFactory;
 public class DynamicJdbcMapperForEachBenchmark<T> extends ForEachMapperQueryExecutor<T> implements QueryExecutor {
 	public DynamicJdbcMapperForEachBenchmark(Connection conn, Class<T> target)
 			throws NoSuchMethodException, SecurityException, SQLException {
-		super(JdbcMapperFactory.newInstance().newMapper(target), conn, target);
+		super(JdbcMapperFactory.newInstance().newMapper(target), conn);
 	}
 	
 	public static void main(String[] args) throws SQLException, Exception {
