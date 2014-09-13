@@ -4,8 +4,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-BENCHMARK=$DIR/../../../src/test/benchmarks
-SCRIPTS=$DIR/../../../src/test/scripts
+BENCHMARK=$DIR/../../../src/main/benchmarks
+SCRIPTS=$DIR/../../../src/main/scripts
 
 DATE=`date +%Y%m%d_%H%M%S`
 
