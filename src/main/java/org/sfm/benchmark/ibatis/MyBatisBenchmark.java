@@ -18,14 +18,12 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 public class MyBatisBenchmark implements QueryExecutor {
 
 	private SqlSessionFactory sqlSessionFactory;
-	private Class<?> target;
-	public MyBatisBenchmark(final Connection conn, Class<?> target)  {
+	public MyBatisBenchmark(final Connection conn)  {
 		TransactionFactory transactionFactory = new JdbcTransactionFactory();
 		Environment environment = new Environment("development", transactionFactory, new SingleConnectionDataSource(conn, true));
 		Configuration configuration = new Configuration(environment);
 		configuration.addMapper(DbObjectMapper.class);
 		this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-		this.target = target;
 
 	}
 	@Override
@@ -33,14 +31,14 @@ public class MyBatisBenchmark implements QueryExecutor {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
 			if (limit != -1) {
-				session.select("select" + target.getSimpleName() + "sWithLimit", limit, new ResultHandler() {
+				session.select("selectSmallBenchmarkObjectsWithLimit", limit, new ResultHandler() {
 					@Override
 					public void handleResult(ResultContext arg0) {
 						ql.object(arg0.getResultObject());
 					}
 				});
 			} else {
-				session.select("select" + target.getSimpleName() + "s",new ResultHandler() {
+				session.select("selectSmallBenchmarkObjects",new ResultHandler() {
 					@Override
 					public void handleResult(ResultContext arg0) {
 						ql.object(arg0.getResultObject());

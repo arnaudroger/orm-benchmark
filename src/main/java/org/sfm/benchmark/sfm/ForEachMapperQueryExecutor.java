@@ -4,19 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.ForEachListener;
 import org.sfm.benchmark.JDBCHelper;
 import org.sfm.benchmark.QueryExecutor;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.utils.RowHandler;
 
-public class ForEachMapperQueryExecutor<T> implements QueryExecutor {
+public class ForEachMapperQueryExecutor implements QueryExecutor {
 
-	final JdbcMapper<T> mapper;
+	final JdbcMapper<SmallBenchmarkObject> mapper;
 	final  Connection conn;
 	
 	
-	public ForEachMapperQueryExecutor(JdbcMapper<T> mapper,
+	public ForEachMapperQueryExecutor(JdbcMapper<SmallBenchmarkObject> mapper,
 			Connection conn) {
 		super();
 		this.mapper = mapper;
@@ -29,9 +30,9 @@ public class ForEachMapperQueryExecutor<T> implements QueryExecutor {
 		try {
 			ResultSet rs = ps.executeQuery();
 			try {
-				mapper.forEach(rs, new RowHandler<T>() {
+				mapper.forEach(rs, new RowHandler<SmallBenchmarkObject>() {
 					@Override
-					public void handle(T t) throws Exception {
+					public void handle(SmallBenchmarkObject t) throws Exception {
 						ql.object(t);
 					}
 				});

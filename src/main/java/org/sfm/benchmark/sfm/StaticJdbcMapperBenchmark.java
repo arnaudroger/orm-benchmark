@@ -10,7 +10,7 @@ import org.sfm.jdbc.DbHelper;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.jdbc.ResultSetMapperBuilderImpl;
 
-public class StaticJdbcMapperBenchmark extends ForEachMapperQueryExecutor<SmallBenchmarkObject> {
+public class StaticJdbcMapperBenchmark extends ForEachMapperQueryExecutor {
 	public StaticJdbcMapperBenchmark(Connection conn) throws NoSuchMethodException, SecurityException, SQLException, IOException {
 		super(newMapper(), conn);
 	}

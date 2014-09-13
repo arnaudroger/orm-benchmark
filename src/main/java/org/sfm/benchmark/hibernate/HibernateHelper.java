@@ -17,7 +17,6 @@ public class HibernateHelper {
 		  // Create the SessionFactory from hibernate.cfg.xml
         Configuration configuration = new Configuration();
         
-        configuration.addResource("db_object.hbm.xml");
         configuration.addResource("small_benchmark_object.hbm.xml");
         
         if (conn instanceof MockConnection) {

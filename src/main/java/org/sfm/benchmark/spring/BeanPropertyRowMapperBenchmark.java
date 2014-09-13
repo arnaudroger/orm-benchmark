@@ -4,22 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.ForEachListener;
 import org.sfm.benchmark.JDBCHelper;
 import org.sfm.benchmark.QueryExecutor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
-public class BeanPropertyRowMapperBenchmark<T> implements QueryExecutor {
+public class BeanPropertyRowMapperBenchmark implements QueryExecutor {
 	final  Connection conn;
-	final Class<T> target;
-	final BeanPropertyRowMapper<T> rowMapper;
+	final BeanPropertyRowMapper<SmallBenchmarkObject> rowMapper;
 	
 	
-	public BeanPropertyRowMapperBenchmark(Connection conn, Class<T> target) {
+	public BeanPropertyRowMapperBenchmark(Connection conn) {
 		super();
 		this.conn = conn;
-		this.target = target;
-		this.rowMapper = new BeanPropertyRowMapper<T>(target);
+		this.rowMapper = new BeanPropertyRowMapper<SmallBenchmarkObject>(SmallBenchmarkObject.class);
 	}
 
 

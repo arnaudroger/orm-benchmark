@@ -25,10 +25,10 @@ public class DbHelper {
 	public static Connection getConnection(String type) throws SQLException {
 		if ("mysql".equals(type)) {
 			return benchmarkMysqlDb();
-		} else if("mock".equals(type)) {
-			return mockDb();
-		}
-		return benchmarkHsqlDb();
+		} else if("hsqldb".equals(type)) {
+			return benchmarkHsqlDb();
+		} 
+		return mockDb();
 	}
 	public static Connection benchmarkHsqlDb() throws SQLException {
 		//Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:benchmarkdb", "SA", "");

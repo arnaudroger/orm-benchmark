@@ -19,7 +19,7 @@ import org.sfm.benchmark.sql2o.Sql2OBenchmark;
 import org.sfm.jdbc.DbHelper;
 
 public class RunBenchmark {
-	static final int NB_ITERATION = 100000;
+	static final int NB_ITERATION = 1000;
 	@SuppressWarnings("unchecked")
 	public static void main(String args[]) throws Exception {
 		
@@ -81,7 +81,7 @@ public class RunBenchmark {
 			conn = DbHelper.benchmarkHsqlDb();
 		}
 		
-		int[] queries = new int[] {1,10,100,1000};
+		int[] queries = new int[] {100};
 		
 		if (args.length > currentArgIndex) {
 			String[] sizesStr = args[currentArgIndex++].split(",");
@@ -168,8 +168,8 @@ public class RunBenchmark {
 			Class<?> target,
 			Class<? extends QueryExecutor> benchmark, int querySize, int nbIteration, BenchmarkListener bl)
 			throws Exception {
-		Constructor<? extends QueryExecutor> c = benchmark.getDeclaredConstructor(Connection.class, Class.class);
-		QueryExecutor qe = c.newInstance(conn, target);
+		Constructor<? extends QueryExecutor> c = benchmark.getDeclaredConstructor(Connection.class);
+		QueryExecutor qe = c.newInstance(conn);
 		new BenchmarkRunner(nbIteration, querySize, qe).run(bl);
 
 	}

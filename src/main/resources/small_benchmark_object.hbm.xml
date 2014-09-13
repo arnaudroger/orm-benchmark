@@ -3,11 +3,12 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping package="org.sfm.beans">
 
-    <class name="DbObject" table="test_db_object">
+    <class name="SmallBenchmarkObject" table="test_small_benchmark_object">
 		<id name="id" column="id" />
 		<property name="name" column="name" />
 		<property name="email" column="email" />
-		<property name="creationTime" column="creation_Time" type="timestamp" />
+		<property name="yearStarted" column="year_started" />
     </class>
+
 
 </hibernate-mapping>
