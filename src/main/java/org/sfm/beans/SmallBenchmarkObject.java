@@ -1,11 +1,17 @@
 package org.sfm.beans;
 
+import org.springframework.jdbc.roma.config.provider.annotation.RowMapperField;
+
 
 public class SmallBenchmarkObject {
 	
+	@RowMapperField(columnName="id")
 	private long id;
+	@RowMapperField(columnName="year_started")
 	private int yearStarted;
+	@RowMapperField(columnName="name")
 	private String name;
+	@RowMapperField(columnName="email")
 	private String email;
 	
 	public long getId() {

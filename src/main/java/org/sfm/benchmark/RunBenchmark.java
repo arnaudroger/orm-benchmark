@@ -15,13 +15,24 @@ import org.sfm.benchmark.sfm.DynamicJdbcMapperForEachBenchmark;
 import org.sfm.benchmark.sfm.DynamicNoAsmJdbcMapperForEachBenchmark;
 import org.sfm.benchmark.sfm.StaticJdbcMapperBenchmark;
 import org.sfm.benchmark.spring.BeanPropertyRowMapperBenchmark;
+import org.sfm.benchmark.spring.RomaBenchmark;
 import org.sfm.benchmark.sql2o.Sql2OBenchmark;
 import org.sfm.jdbc.DbHelper;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.BasicConfigurator;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 
 public class RunBenchmark {
 	static final int NB_ITERATION = 1000;
 	@SuppressWarnings("unchecked")
 	public static void main(String args[]) throws Exception {
+		BasicConfigurator.configureDefaultContext();
+		
+		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		lc.getLogger(Logger.ROOT_LOGGER_NAME).setLevel(Level.ERROR);
 		
 		boolean displayHeader = true;
 		int currentArgIndex = 0;
@@ -34,7 +45,8 @@ public class RunBenchmark {
 				Sql2OBenchmark.class,
 				HibernateStatefullBenchmark.class, 
 				MyBatisBenchmark.class,
-				BeanPropertyRowMapperBenchmark.class
+				BeanPropertyRowMapperBenchmark.class,
+				RomaBenchmark.class
 				};
 		
 		if (args.length > currentArgIndex) {
