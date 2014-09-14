@@ -77,6 +77,9 @@ public class RunBenchmark {
 			}  else if(type.contains("rowmapper")) {
 				classes = new Class[] { BeanPropertyRowMapperBenchmark.class };
 				currentArgIndex++;
+			}  else if(type.contains("roma")) {
+				classes = new Class[] { RomaBenchmark.class };
+				currentArgIndex++;
 			} else if (type.equals("header")) {
 				printHeader(System.out);
 				return;
