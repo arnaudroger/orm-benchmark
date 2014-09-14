@@ -40,6 +40,7 @@ $HOME/.m2/repository/com/github/arnaudroger/simpleFlatMapper/0.9.3-SNAPSHOT/simp
 #JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder" 
 #JAVA_OPTS="-XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly"
 #JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y"
+JAVA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 
 MAINCLASS=org.sfm.benchmark.RunBenchmark
 JAVACMD="time java -Xms512m -Xmx512m $JAVA_OPTS $MAINCLASS"
@@ -51,8 +52,9 @@ $JAVACMD dynamic $*
 $JAVACMD dynamicNoAsm $*
 $JAVACMD roma $*
 $JAVACMD sql2o $*
-#$JAVACMD rowmapper $*
 $JAVACMD hibernate $*
 $JAVACMD ibatis $*
+#rowmapper is too slow
+#$JAVACMD rowmapper $*
 
 
