@@ -44,14 +44,12 @@ $HOME/.m2/repository/com/github/arnaudroger/simpleFlatMapper/0.9.3-SNAPSHOT/simp
 MAINCLASS=org.sfm.benchmark.RunBenchmark
 JAVACMD="time java -Xms1g -Xmx1g $JAVA_OPTS $MAINCLASS"
 
-$JAVACMD roma $*
-exit
 $JAVACMD header
-$JAVACMD roma $*
 $JAVACMD pure $*
 $JAVACMD static $*
 $JAVACMD dynamic $*
 $JAVACMD dynamicNoAsm $*
+$JAVACMD roma $*
 $JAVACMD sql2o $*
 #$JAVACMD rowmapper $*
 $JAVACMD hibernate $*
