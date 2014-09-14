@@ -44,5 +44,6 @@ $JAVACMD sql2o $*
 #$JAVACMD rowmapper $*
 $JAVACMD hibernate $*
 $JAVACMD ibatis $*
+$JAVACMD roma $*
 
 
