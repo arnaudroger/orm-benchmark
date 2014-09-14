@@ -60,6 +60,28 @@ public class MockResultSet implements ResultSet {
 		}
 		return null;
 	}
+	
+	@Override
+	public String getString(String columnLabel) throws SQLException {
+		if (columnLabel.equals("name")) {
+			 return "name";
+		} else if (columnLabel.equals("email")) {
+			return "email";
+		}
+		return null;
+	}
+	
+	@Override
+	public int getInt(String columnLabel) throws SQLException {
+		return 2000 + i;
+	}
+
+	@Override
+	public long getLong(String columnLabel) throws SQLException {
+		return i;
+	}
+
+
 
 	@Override
 	public boolean getBoolean(int columnIndex) throws SQLException {
@@ -137,10 +159,6 @@ public class MockResultSet implements ResultSet {
 		return null;
 	}
 
-	@Override
-	public String getString(String columnLabel) throws SQLException {
-		return null;
-	}
 
 	@Override
 	public boolean getBoolean(String columnLabel) throws SQLException {
@@ -154,16 +172,6 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public short getShort(String columnLabel) throws SQLException {
-		return 0;
-	}
-
-	@Override
-	public int getInt(String columnLabel) throws SQLException {
-		return 0;
-	}
-
-	@Override
-	public long getLong(String columnLabel) throws SQLException {
 		return 0;
 	}
 

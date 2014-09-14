@@ -27,15 +27,27 @@ $HOME/.m2/repository/org/springframework/spring-beans/4.0.6.RELEASE/spring-beans
 $HOME/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:\
 $HOME/.m2/repository/org/springframework/spring-core/4.0.6.RELEASE/spring-core-4.0.6.RELEASE.jar:\
 $HOME/.m2/repository/org/springframework/spring-tx/4.0.6.RELEASE/spring-tx-4.0.6.RELEASE.jar:\
+$HOME/.m2/repository/ch/qos/logback/logback-classic/0.9.29/logback-classic-0.9.29.jar:\
+$HOME/.m2/repository/ch/qos/logback/logback-core/0.9.29/logback-core-0.9.29.jar:\
+$HOME/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:\
+$HOME/.m2/repository/org/springframework/spring-context/4.0.6.RELEASE/spring-context-4.0.6.RELEASE.jar:\
+$HOME/.m2/repository/org/springframework/spring-jdbc-roma/1.0.0-RELEASE/spring-jdbc-roma-1.0.0-RELEASE.jar:\
+$HOME/.m2/repository/org/springframework/spring-aop/4.0.6.RELEASE/spring-aop-4.0.6.RELEASE.jar:\
+$HOME/.m2/repository/org/springframework/spring-expression/4.0.6.RELEASE/spring-expression-4.0.6.RELEASE.jar:\
+$HOME/.m2/repository/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar:\
 $HOME/.m2/repository/com/github/arnaudroger/simpleFlatMapper/0.9.3-SNAPSHOT/simpleFlatMapper-0.9.3-SNAPSHOT.jar
 
 #JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder" 
 #JAVA_OPTS="-XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly"
+#JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y"
 
 MAINCLASS=org.sfm.benchmark.RunBenchmark
 JAVACMD="time java -Xms1g -Xmx1g $JAVA_OPTS $MAINCLASS"
 
+$JAVACMD roma $*
+exit
 $JAVACMD header
+$JAVACMD roma $*
 $JAVACMD pure $*
 $JAVACMD static $*
 $JAVACMD dynamic $*
@@ -44,6 +56,5 @@ $JAVACMD sql2o $*
 #$JAVACMD rowmapper $*
 $JAVACMD hibernate $*
 $JAVACMD ibatis $*
-$JAVACMD roma $*
 
 
