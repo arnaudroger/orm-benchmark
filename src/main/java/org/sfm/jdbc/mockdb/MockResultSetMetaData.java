@@ -65,9 +65,9 @@ public class MockResultSetMetaData implements ResultSetMetaData {
 	public String getColumnName(int column) throws SQLException {
 		switch (column) {
 		case 1: return "id";
-		case 2: return "year_started";
-		case 3: return "name";
-		case 4: return "email";
+		case 2: return "name";
+		case 3: return "email";
+		case 4: return "year_started";
 		default:
 			throw new UnsupportedOperationException();
 		}
@@ -102,9 +102,9 @@ public class MockResultSetMetaData implements ResultSetMetaData {
 	public int getColumnType(int column) throws SQLException {
 		switch (column) {
 		case 1: return Types.BIGINT;
-		case 2: return Types.INTEGER;
+		case 2: return Types.VARCHAR;
 		case 3: return Types.VARCHAR;
-		case 4: return Types.VARCHAR;
+		case 4: return Types.INTEGER;
 		default:
 			throw new UnsupportedOperationException();
 		}

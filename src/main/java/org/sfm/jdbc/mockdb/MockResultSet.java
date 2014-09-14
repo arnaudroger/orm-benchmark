@@ -55,10 +55,10 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public String getString(int columnIndex) throws SQLException {
 		switch(columnIndex) {
-		case 3: return "name";
-		case 4: return "email";
+		case 2: return "name";
+		case 3: return "email";
 		}
-		return null;
+		throw new SQLException("invalid column index " + columnIndex);
 	}
 	
 	@Override
@@ -68,95 +68,107 @@ public class MockResultSet implements ResultSet {
 		} else if (columnLabel.equals("email")) {
 			return "email";
 		}
-		return null;
+		throw new SQLException("invalid column name " + columnLabel);
 	}
 	
 	@Override
 	public int getInt(String columnLabel) throws SQLException {
-		return 2000 + i;
+		if ("year_started".equals(columnLabel)) {
+			return 2000 + i;
+		}  else {
+			throw new SQLException("invalid column name " + columnLabel);
+		}
 	}
 
 	@Override
 	public long getLong(String columnLabel) throws SQLException {
-		return i;
-	}
-
-
-
-	@Override
-	public boolean getBoolean(int columnIndex) throws SQLException {
-		return false;
-	}
-
-	@Override
-	public byte getByte(int columnIndex) throws SQLException {
-		return 0;
-	}
-
-	@Override
-	public short getShort(int columnIndex) throws SQLException {
-		return 0;
+		if ("id".equals(columnLabel)) {
+			return i;
+		}  else {
+			throw new SQLException("invalid column name " + columnLabel);
+		}
 	}
 
 	@Override
 	public int getInt(int columnIndex) throws SQLException {
-		return 2000 + i;
+		if (columnIndex == 4) {
+			return 2000 + i;
+		} 
+		throw new SQLException("invalid column name " + columnIndex);
 	}
 
 	@Override
 	public long getLong(int columnIndex) throws SQLException {
-		return i;
+		if (columnIndex == 1) {
+			return i;
+		} 
+		throw new SQLException("invalid column name " + columnIndex);
+	}
+
+	@Override
+	public boolean getBoolean(int columnIndex) throws SQLException {
+		throw new SQLException("Unexpected Call");
+	}
+
+	@Override
+	public byte getByte(int columnIndex) throws SQLException {
+		throw new SQLException("Unexpected Call");
+	}
+
+	@Override
+	public short getShort(int columnIndex) throws SQLException {
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public float getFloat(int columnIndex) throws SQLException {
-		return 0;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public double getDouble(int columnIndex) throws SQLException {
-		return 0;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public BigDecimal getBigDecimal(int columnIndex, int scale)
 			throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public byte[] getBytes(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Date getDate(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Time getTime(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Timestamp getTimestamp(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getAsciiStream(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getUnicodeStream(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getBinaryStream(int columnIndex) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 
@@ -188,48 +200,48 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public BigDecimal getBigDecimal(String columnLabel, int scale)
 			throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public byte[] getBytes(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Date getDate(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Time getTime(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Timestamp getTimestamp(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getAsciiStream(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getUnicodeStream(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public InputStream getBinaryStream(String columnLabel) throws SQLException {
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public SQLWarning getWarnings() throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -241,7 +253,7 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public String getCursorName() throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -252,13 +264,13 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public Object getObject(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Object getObject(String columnLabel) throws SQLException {
 
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -270,25 +282,25 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public Reader getCharacterStream(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Reader getCharacterStream(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public BigDecimal getBigDecimal(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -703,119 +715,119 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public Statement getStatement() throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Object getObject(int columnIndex, Map<String, Class<?>> map)
 			throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Ref getRef(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Blob getBlob(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Clob getClob(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Array getArray(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Object getObject(String columnLabel, Map<String, Class<?>> map)
 			throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Ref getRef(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Blob getBlob(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Clob getClob(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Array getArray(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Date getDate(int columnIndex, Calendar cal) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Date getDate(String columnLabel, Calendar cal) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Time getTime(int columnIndex, Calendar cal) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Time getTime(String columnLabel, Calendar cal) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Timestamp getTimestamp(int columnIndex, Calendar cal)
 			throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Timestamp getTimestamp(String columnLabel, Calendar cal)
 			throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public URL getURL(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public URL getURL(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -869,13 +881,13 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public RowId getRowId(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public RowId getRowId(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -932,25 +944,25 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public NClob getNClob(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public NClob getNClob(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public SQLXML getSQLXML(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public SQLXML getSQLXML(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -970,25 +982,25 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public String getNString(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public String getNString(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Reader getNCharacterStream(int columnIndex) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
 	public Reader getNCharacterStream(String columnLabel) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	@Override
@@ -1187,13 +1199,13 @@ public class MockResultSet implements ResultSet {
 
 	public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 	public <T> T getObject(String columnLabel, Class<T> type)
 			throws SQLException {
 		
-		return null;
+		throw new SQLException("Unexpected Call");
 	}
 
 }
