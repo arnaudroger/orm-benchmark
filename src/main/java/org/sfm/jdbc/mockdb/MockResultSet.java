@@ -63,9 +63,9 @@ public class MockResultSet implements ResultSet {
 	
 	@Override
 	public String getString(String columnLabel) throws SQLException {
-		if (columnLabel.equals("name")) {
+		if (columnLabel.startsWith("name")) {
 			 return "name";
-		} else if (columnLabel.equals("email")) {
+		} else if (columnLabel.startsWith("email")) {
 			return "email";
 		}
 		throw new SQLException("invalid column name " + columnLabel);
@@ -73,7 +73,7 @@ public class MockResultSet implements ResultSet {
 	
 	@Override
 	public int getInt(String columnLabel) throws SQLException {
-		if ("year_started".equals(columnLabel)) {
+		if (columnLabel.startsWith("year_sta")) {
 			return 2000 + i;
 		}  else {
 			throw new SQLException("invalid column name " + columnLabel);
@@ -82,7 +82,7 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public long getLong(String columnLabel) throws SQLException {
-		if ("id".equals(columnLabel)) {
+		if (columnLabel.startsWith("id")) {
 			return i;
 		}  else {
 			throw new SQLException("invalid column name " + columnLabel);
@@ -263,8 +263,15 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public Object getObject(int columnIndex) throws SQLException {
-		
-		throw new SQLException("Unexpected Call");
+		switch(columnIndex) {
+		case 1: return getLong(columnIndex);
+		case 2: return getString(columnIndex);
+		case 3: return getString(columnIndex);
+		case 4: return getInt(columnIndex);
+		default:
+			throw new SQLException("Unexpected Call");
+
+		}
 	}
 
 	@Override

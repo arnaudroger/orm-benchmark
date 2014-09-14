@@ -42,7 +42,7 @@ $HOME/.m2/repository/com/github/arnaudroger/simpleFlatMapper/0.9.3-SNAPSHOT/simp
 #JAVA_OPTS="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y"
 
 MAINCLASS=org.sfm.benchmark.RunBenchmark
-JAVACMD="time java -Xms1g -Xmx1g $JAVA_OPTS $MAINCLASS"
+JAVACMD="time java -Xms512m -Xmx512m $JAVA_OPTS $MAINCLASS"
 
 $JAVACMD header
 $JAVACMD pure $*
