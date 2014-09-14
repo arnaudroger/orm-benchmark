@@ -16,7 +16,7 @@ $SCRIPTS/allBenchmarks.sh mysql 1,10,100,1000 100000 > $BENCHMARK/data/mysql/mys
 $SCRIPTS/cpuPostBenchmark.sh
 
 git add $BENCHMARK/data/mock/mock_$DATE.csv $BENCHMARK/data/hsqldb/hsqldb_$DATE.csv $BENCHMARK/data/mysql/mysql_$DATE.csv
-git commit -m "$DATE benchmark"
+#git commit -m "$DATE benchmark"
 
 
 
