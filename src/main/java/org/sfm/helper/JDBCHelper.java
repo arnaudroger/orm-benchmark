@@ -1,8 +1,9 @@
-package org.sfm.benchmark;
+package org.sfm.helper;
 
 import java.sql.ResultSet;
 
 import org.sfm.beans.SmallBenchmarkObject;
+import org.sfm.benchmark.RowMapper;
 
 public class JDBCHelper {
 	public static String query(int limit) {

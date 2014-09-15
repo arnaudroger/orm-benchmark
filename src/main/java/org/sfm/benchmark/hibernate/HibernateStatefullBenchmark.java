@@ -1,6 +1,5 @@
 package org.sfm.benchmark.hibernate;
 
-import java.sql.Connection;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -13,8 +12,9 @@ import org.sfm.benchmark.QueryExecutor;
 public class HibernateStatefullBenchmark implements QueryExecutor {
 
 	private SessionFactory sf;
-	public HibernateStatefullBenchmark(Connection conn) {
-		this(HibernateHelper.getSessionFactory(conn, false));
+
+	public HibernateStatefullBenchmark() {
+		this(HibernateHelper.getSessionFactory(false));
 	}
 
 	public HibernateStatefullBenchmark(SessionFactory sessionFactory) {
@@ -25,12 +25,13 @@ public class HibernateStatefullBenchmark implements QueryExecutor {
 	public void forEach(ForEachListener ql, int limit) throws Exception {
 		Session session = sf.openSession();
 		try {
-			Query query = session.createQuery("from " + SmallBenchmarkObject.class.getSimpleName());
+			Query query = session.createQuery("from "
+					+ SmallBenchmarkObject.class.getSimpleName());
 			if (limit >= 0) {
 				query.setMaxResults(limit);
 			}
 			List<?> sr = query.list();
-			for(Object o : sr) {
+			for (Object o : sr) {
 				ql.object(o);
 			}
 		} finally {

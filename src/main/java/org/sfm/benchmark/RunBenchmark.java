@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 
 import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.hibernate.HibernateStatefullBenchmark;
@@ -17,23 +16,11 @@ import org.sfm.benchmark.sfm.StaticJdbcMapperBenchmark;
 import org.sfm.benchmark.spring.BeanPropertyRowMapperBenchmark;
 import org.sfm.benchmark.spring.RomaBenchmark;
 import org.sfm.benchmark.sql2o.Sql2OBenchmark;
-import org.sfm.jdbc.DbHelper;
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.BasicConfigurator;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 
 public class RunBenchmark {
 	static final int NB_ITERATION = 1000;
 	@SuppressWarnings("unchecked")
 	public static void main(String args[]) throws Exception {
-		BasicConfigurator.configureDefaultContext();
-		
-		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		lc.getLogger(Logger.ROOT_LOGGER_NAME).setLevel(Level.ERROR);
-		
 		boolean displayHeader = true;
 		int currentArgIndex = 0;
 		
@@ -88,14 +75,6 @@ public class RunBenchmark {
 				System.exit(-1);
 			}
 		}
-		Connection conn;
-		
-		if (args.length > currentArgIndex) {
-			conn = DbHelper.getConnection(args[currentArgIndex++]);
-		} else {
-			conn = DbHelper.benchmarkHsqlDb();
-		}
-		
 		int[] queries = new int[] {100};
 		
 		if (args.length > currentArgIndex) {
@@ -111,8 +90,6 @@ public class RunBenchmark {
 			iteration = Integer.parseInt(args[currentArgIndex++]);
 		}
 		
-		Class<SmallBenchmarkObject> target = SmallBenchmarkObject.class;
-		System.err.println(conn.getClass().getSimpleName() + " "  + Arrays.toString(queries) + " " + iteration + " " + Arrays.toString(classes));
 		if (displayHeader) {
 			printHeader(System.out);
 		}
@@ -121,23 +98,21 @@ public class RunBenchmark {
 			for (int querySize : queries) {
 				System.gc();
 				Thread.sleep(200);
-				runBenchmark(conn, target, benchmark, querySize, iteration);
+				runBenchmark(benchmark, querySize, iteration);
 			}
 		}
 
 	}
-	public static void runBenchmark(Connection conn,
-			Class<? extends QueryExecutor> benchmark)
+	public static void runBenchmark(Class<? extends QueryExecutor> benchmark)
 			throws Exception {
-		runBenchmark(conn, SmallBenchmarkObject.class, benchmark, BenchmarkConstants.SINGLE_QUERY_SIZE, BenchmarkConstants.SINGLE_NB_ITERATION);
+		runBenchmark(benchmark, BenchmarkConstants.SINGLE_QUERY_SIZE, BenchmarkConstants.SINGLE_NB_ITERATION);
 	}
-	public static void runBenchmark(Connection conn,
-			Class<?> objectClassToMap,
+	public static void runBenchmark(
 			Class<? extends QueryExecutor> benchmark, int querySize, int nbIteration)
 			throws Exception {
 		CollectBenchmarkListener cbl = new CollectBenchmarkListener();
-		runBenchmark(conn, objectClassToMap, benchmark, querySize, nbIteration, cbl);
-		output(benchmark.getSimpleName()+"," + objectClassToMap.getSimpleName() + "," + nf2.format(querySize), cbl, System.out);
+		runBenchmark(benchmark, querySize, nbIteration, cbl);
+		output(benchmark.getSimpleName()+"," + SmallBenchmarkObject.class.getSimpleName() + "," + nf2.format(querySize), cbl, System.out);
 	}
 
 	public static void printHeader(PrintStream ps) throws IOException {
@@ -179,12 +154,10 @@ public class RunBenchmark {
 		out.println();
 	}
 
-	private static void runBenchmark(Connection conn,
-			Class<?> target,
-			Class<? extends QueryExecutor> benchmark, int querySize, int nbIteration, BenchmarkListener bl)
+	private static void runBenchmark(Class<? extends QueryExecutor> benchmark, int querySize, int nbIteration, BenchmarkListener bl)
 			throws Exception {
 		Constructor<? extends QueryExecutor> c = benchmark.getDeclaredConstructor(Connection.class);
-		QueryExecutor qe = c.newInstance(conn);
+		QueryExecutor qe = c.newInstance();
 		new BenchmarkRunner(nbIteration, querySize, qe).run(bl);
 
 	}

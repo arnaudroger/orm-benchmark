@@ -1,4 +1,4 @@
-package org.sfm.jdbc;
+package org.sfm.helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,35 +7,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.sfm.jdbc.mockdb.MockConnection;
+import javax.sql.DataSource;
 
-public class DbHelper {
+import org.sfm.jdbc.mockdb.MockConnection;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
+public class ConnectionHelper {
 	
 	private static final int NB_BENCHMARK_OBJECT = 10000;
 	
-	public static Connection getConnection(String[] args) throws SQLException {
-		if (args.length > 0) {
-			String arg = args[0];
-			return getConnection(arg);
-		}
-		
-		return benchmarkHsqlDb();
+	public static Connection getConnection() throws SQLException {
+		return getConnection(System.getProperty("db"));
 	}
 
+	public static DataSource getDataSource() throws SQLException {
+		return new SingleConnectionDataSource(getConnection(), true);
+	}
+	
 	public static Connection getConnection(String type) throws SQLException {
 		if ("mysql".equals(type)) {
-			return benchmarkMysqlDb();
+			return mysqlDb();
 		} else if("hsqldb".equals(type)) {
-			return benchmarkHsqlDb();
+			return hsqlDb();
 		} 
 		return mockDb();
 	}
-	public static Connection benchmarkHsqlDb() throws SQLException {
-		//Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:benchmarkdb", "SA", "");
+	public static Connection hsqlDb() throws SQLException {
 		Connection c = newHsqlDbConnection();
-
 		createTableAndInsertData(c);
-	
 		return c;
 	}
 	
@@ -43,12 +42,9 @@ public class DbHelper {
 		return new MockConnection();
 	}
 	
-	public static Connection benchmarkMysqlDb() throws SQLException {
-		//Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:benchmarkdb", "SA", "");
+	public static Connection mysqlDb() throws SQLException {
 		Connection c = newMysqlDbConnection();
-
 		createTableAndInsertData(c);
-	
 		return c;
 	}
 

@@ -8,15 +8,15 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
-import org.sfm.benchmark.PureJdbcBenchmark;
+import org.sfm.benchmark.spring.RomaBenchmark;
 
 @State(Scope.Benchmark)
 @BenchmarkMode({Mode.SampleTime})
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class PureJdbcJmhBenchmarks extends AbstractJmhBenchmark  {
+public class RomaJmhBenchmarks extends AbstractJmhBenchmark  {
 	
-	public PureJdbcJmhBenchmarks() {
-		super(new PureJdbcBenchmark());
+	public RomaJmhBenchmarks() {
+		super(new RomaBenchmark());
 	}
 	
 	@Benchmark
@@ -25,17 +25,17 @@ public class PureJdbcJmhBenchmarks extends AbstractJmhBenchmark  {
 	}
 
 	@Benchmark
-	public void testQuery10() throws Exception {
+	public void testQuery10PureJdbc() throws Exception {
 		executeBenchmark(100, qe);
 	}
 
 	@Benchmark
-	public void testQuery100() throws Exception {
+	public void testQuery100PureJdbc() throws Exception {
 		executeBenchmark(1000, qe);
 	}
 
 	@Benchmark
-	public void testQuery1000() throws Exception {
+	public void testQuery1000PureJdbc() throws Exception {
 		executeBenchmark(1000, qe);
 	}
 }
