@@ -75,6 +75,14 @@ public class RunBenchmark {
 				System.exit(-1);
 			}
 		}
+		if (args.length > currentArgIndex) {
+			String arg = args[currentArgIndex];
+			if ("mock".equals(arg) || "hsqldb".equals(arg) || "mysql".equals(arg)) {
+				System.setProperty("db", arg);
+				currentArgIndex++;
+			}
+		}
+		
 		int[] queries = new int[] {100};
 		
 		if (args.length > currentArgIndex) {
@@ -156,7 +164,7 @@ public class RunBenchmark {
 
 	private static void runBenchmark(Class<? extends QueryExecutor> benchmark, int querySize, int nbIteration, BenchmarkListener bl)
 			throws Exception {
-		Constructor<? extends QueryExecutor> c = benchmark.getDeclaredConstructor(Connection.class);
+		Constructor<? extends QueryExecutor> c = benchmark.getDeclaredConstructor();
 		QueryExecutor qe = c.newInstance();
 		new BenchmarkRunner(nbIteration, querySize, qe).run(bl);
 
