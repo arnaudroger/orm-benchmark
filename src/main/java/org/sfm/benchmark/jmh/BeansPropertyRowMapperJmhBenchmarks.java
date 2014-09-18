@@ -25,17 +25,17 @@ public class BeansPropertyRowMapperJmhBenchmarks extends AbstractJmhBenchmark  {
 	}
 
 	@Benchmark
-	public void testQuery10PureJdbc() throws Exception {
+	public void testQuery10() throws Exception {
 		executeBenchmark(100, qe);
 	}
 
 	@Benchmark
-	public void testQuery100PureJdbc() throws Exception {
+	public void testQuery100() throws Exception {
 		executeBenchmark(1000, qe);
 	}
 
 	@Benchmark
-	public void testQuery1000PureJdbc() throws Exception {
+	public void testQuery1000() throws Exception {
 		executeBenchmark(1000, qe);
 	}
 }
