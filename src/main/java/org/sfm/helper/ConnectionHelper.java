@@ -29,8 +29,10 @@ public class ConnectionHelper {
 			return mysqlDb();
 		} else if("hsqldb".equals(type)) {
 			return hsqlDb();
-		} 
-		return mockDb();
+		}  else if("mock".equals(type)) {
+			return mockDb();
+		}
+		throw new IllegalArgumentException("Invalid db " + type);
 	}
 	public static Connection hsqlDb() throws SQLException {
 		Connection c = newHsqlDbConnection();

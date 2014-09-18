@@ -26,12 +26,12 @@ public class BeansPropertyRowMapperJmhBenchmarks extends AbstractJmhBenchmark  {
 
 	@Benchmark
 	public void testQuery10() throws Exception {
-		executeBenchmark(100, qe);
+		executeBenchmark(10, qe);
 	}
 
 	@Benchmark
 	public void testQuery100() throws Exception {
-		executeBenchmark(1000, qe);
+		executeBenchmark(100, qe);
 	}
 
 	@Benchmark
