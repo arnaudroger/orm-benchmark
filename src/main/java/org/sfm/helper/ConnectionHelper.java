@@ -91,10 +91,20 @@ public class ConnectionHelper {
 	}
 	
 	private static Connection newHsqlDbConnection() throws SQLException {
+		try {
+		Class.forName("org.hsqldb.jdbc.JDBCDriver");
+		} catch(Exception e) {
+			throw new Error(e);
+		}
 		return DriverManager.getConnection("jdbc:hsqldb:mem:mymemdb", "SA", "");
 	}
 	
 	private static Connection newMysqlDbConnection() throws SQLException {
+		try {
+		Class.forName("com.mysql.jdbc.Driver");
+		} catch(Exception e) {
+			throw new Error(e);
+		}
 		return DriverManager.getConnection("jdbc:mysql://localhost/sfm", "sfm", "");
 	}
 	
