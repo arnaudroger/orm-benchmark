@@ -3,7 +3,6 @@ package org.sfm.benchmark;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
-import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
