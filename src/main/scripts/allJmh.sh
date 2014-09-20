@@ -26,3 +26,4 @@ runJmh Rom
 runJmh Sql2o
 runJmh Hibernate
 runJmh MyBatis
+runJmh RowMapper
