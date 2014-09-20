@@ -8,15 +8,17 @@ import org.sfm.helper.ConnectionHelper;
 import org.sfm.helper.JDBCHelper;
 
 public abstract class AbstractJdbcQueryExecutor implements QueryExecutor {
-
+	Connection conn;
+	public AbstractJdbcQueryExecutor()  {
+		try {
+		conn = ConnectionHelper.getConnection();
+		} catch(Exception e) {
+			throw new Error(e);
+		}
+	}
 	@Override
 	public void forEach(ForEachListener ql, int limit) throws Exception {
-		Connection conn = ConnectionHelper.getConnection();
-		try {
-			forEach(conn, ql, limit);
-		} finally {
-			conn.close();
-		}
+		forEach(conn, ql, limit);
 	}
 
 	private void forEach(Connection conn, ForEachListener ql, int limit)
