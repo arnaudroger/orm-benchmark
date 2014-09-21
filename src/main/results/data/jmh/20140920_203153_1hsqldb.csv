@@ -1,0 +1,5 @@
+"Benchmark","QuerySize","Median","Error (99.9%)","Samples"
+"BeansPropertyRowMapperJmhBenchmarks",0001,37407.715982529895,71.03659749756616,1466276
+"BeansPropertyRowMapperJmhBenchmarks",0010,141057.22845329734,200.50624037385134,778553
+"BeansPropertyRowMapperJmhBenchmarks",0100,1218671.8700282595,1895.3830077834245,90235
+"BeansPropertyRowMapperJmhBenchmarks",1000,1.1775756284069099E7,19799.057912344135,9378
