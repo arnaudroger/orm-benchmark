@@ -36,6 +36,17 @@ o.s.b.c.CsvBenchmark.testReadCsv100000    thrpt       20  27.127        0.551  o
 
 Benchmark                                  Mode  Samples   Score  Score error  Units
 o.s.b.c.CsvBenchmark.testReadCsv100000    thrpt       20  28.465        1.023  ops/s
+
+Result: 2814.357 ±(99.9%) 51.856 ops/s [Average]
+  Statistics: (min, avg, max) = (2730.086, 2814.357, 2905.223), stdev = 59.718
+  Confidence interval (99.9%): [2762.501, 2866.213]
+
+
+# Run complete. Total time: 00:00:48
+
+Benchmark                                Mode  Samples     Score  Score error  Units
+o.s.b.c.CsvBenchmark.testReadCsv1000    thrpt       20  2814.357       51.856  ops/s
+
 	 *
 	 */
 
