@@ -13,6 +13,10 @@ import org.sfm.csv.CsvMapper;
 import org.sfm.csv.CsvMapperBuilder;
 import org.sfm.utils.RowHandler;
 
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
 @State(Scope.Benchmark)
 public class CsvBenchmark {
 	/*
@@ -53,7 +57,8 @@ o.s.b.c.CsvBenchmark.testReadCsv1000    thrpt       20  2814.357       51.856  o
 	private CsvMapper<SmallBenchmarkObject> mapper;
 	private byte[] bytes;
 	private Blackhole blackhole = new Blackhole();
-	
+	private CsvSchema schema;
+	private ObjectReader reader = new com.fasterxml.jackson.dataformat.csv.CsvMapper().reader(SmallBenchmarkObject.class);
 	public CsvBenchmark() {
 		mapper = new CsvMapperBuilder<SmallBenchmarkObject>(SmallBenchmarkObject.class)
 				.addMapping("id")
@@ -61,6 +66,15 @@ o.s.b.c.CsvBenchmark.testReadCsv1000    thrpt       20  2814.357       51.856  o
 				.addMapping("name")
 				.addMapping("email")
 				.mapper();
+		
+		
+		schema = CsvSchema.builder()
+		        .addColumn("id")
+		        .addColumn("yearStarted")
+		        .addColumn("name")
+		        .addColumn("email")
+		        .build();
+		
 		
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
@@ -82,7 +96,7 @@ o.s.b.c.CsvBenchmark.testReadCsv1000    thrpt       20  2814.357       51.856  o
 	}
 	
 	@Benchmark
-	public void testReadCsv1000() throws Exception {
+	public void testReadCsvSfm1000() throws Exception {
 		ByteArrayInputStream is = new ByteArrayInputStream(bytes);
 		
 		mapper.forEach(is, new RowHandler<SmallBenchmarkObject>() {
@@ -93,5 +107,16 @@ o.s.b.c.CsvBenchmark.testReadCsv1000    thrpt       20  2814.357       51.856  o
 		});
 	}
 	
+	
+	@Benchmark
+	public void testReadCsvJackson1000() throws Exception {
+		ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+		
+		MappingIterator<SmallBenchmarkObject> mi = reader.with(schema).readValues(is);
+		
+		while(mi.hasNext()) {
+			blackhole.consume(mi.next());
+		}
+	}
 	
 }
