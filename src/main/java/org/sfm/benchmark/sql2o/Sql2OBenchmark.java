@@ -1,12 +1,10 @@
 package org.sfm.benchmark.sql2o;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.ForEachListener;
 import org.sfm.benchmark.QueryExecutor;
-import org.sfm.benchmark.RunBenchmark;
 import org.sfm.helper.JDBCHelper;
 import org.sql2o.Sql2o;
 
@@ -31,9 +29,6 @@ public class Sql2OBenchmark implements QueryExecutor {
 		}
 	}
 	
-	public static void main(String[] args) throws SQLException, Exception {
-		RunBenchmark.runBenchmark(Sql2OBenchmark.class);
-	}
 
 	
 }

@@ -7,9 +7,7 @@ import org.sfm.benchmark.RowMapper;
 
 public class JDBCHelper {
 	public static String query(int limit) {
-		StringBuilder query;
-		query = new StringBuilder(
-				"SELECT id, name, email, year_started FROM test_small_benchmark_object ");
+		StringBuilder query =  new StringBuilder("SELECT id, name, email, year_started FROM test_small_benchmark_object ");
 		if (limit >= 0) {
 			query.append("LIMIT ").append(Integer.toString(limit));
 		}
