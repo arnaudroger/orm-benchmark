@@ -1,5 +1,6 @@
 package org.sfm.benchmark.sfm;
 
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -26,9 +27,6 @@ public class JdbcMapperDynamicBenchmark  {
 	@Param(value={"1", "10", "100", "1000"})
 	int limit;
 
-	@Param(value="MOCK")
-	DbTarget db;
-	
 	@Param(value= {"true", "false"})
 	boolean useAsm;
 	
@@ -36,13 +34,27 @@ public class JdbcMapperDynamicBenchmark  {
 	
 	private JdbcMapper<SmallBenchmarkObject> mapper;
 	
+	
 	@Setup
 	public void init() {
 		mapper = JdbcMapperFactory.newInstance().useAsm(useAsm).newMapper(SmallBenchmarkObject.class);
 	}
 	
 	@Benchmark
-	public void testQuery() throws Exception {
+	public void testQuery(ConnectionHolder connectionHolder) throws Exception {
+		if (connectionHolder.db == DbTarget.MOCK) {
+			testQueryMock();
+		} else {
+			testQueryDb();
+		}
+	}
+
+	private void testQueryDb() {
+		throw new IllegalArgumentException();
+
+	}
+
+	private void testQueryMock() throws SQLException {
 		mapper.forEach(new MockResultSet(limit), new RowHandler<SmallBenchmarkObject>() {
 			@Override
 			public void handle(SmallBenchmarkObject o) throws Exception {

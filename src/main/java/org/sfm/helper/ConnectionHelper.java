@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import org.sfm.benchmark.jmh.DbTarget;
 import org.sfm.jdbc.mockdb.MockConnection;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
@@ -22,6 +23,19 @@ public class ConnectionHelper {
 
 	public static DataSource getDataSource() throws SQLException {
 		return new SingleConnectionDataSource(getConnection(), true);
+	}
+	
+
+	public static Connection getConnection(DbTarget db) throws SQLException {
+		switch (db) {
+		case MOCK:
+			return mockDb();
+		case HSQLDB:
+			return hsqlDb();
+		case MYSQL:
+			return mysqlDb();
+		}
+		throw new IllegalArgumentException("Invalid db " + db);
 	}
 	
 	public static Connection getConnection(String type) throws SQLException {
@@ -107,5 +121,6 @@ public class ConnectionHelper {
 		}
 		return DriverManager.getConnection("jdbc:mysql://localhost/sfm", "sfm", "");
 	}
+
 	
 }

@@ -26,9 +26,6 @@ public class JdbcMapperStaticBenchmark  {
 	@Param(value={"1", "10", "100", "1000"})
 	int limit;
 
-	@Param(value="MOCK")
-	DbTarget db;
-	
 	@Param(value= {"true", "false"})
 	boolean useAsm;
 	
@@ -46,13 +43,19 @@ public class JdbcMapperStaticBenchmark  {
 	}
 	
 	@Benchmark
-	public void testQuery() throws Exception {
-		mapper.forEach(new MockResultSet(limit), new RowHandler<SmallBenchmarkObject>() {
-			@Override
-			public void handle(SmallBenchmarkObject o) throws Exception {
-				blackhole.consume(o);
-			}
-		});
+	public void testQuery(ConnectionHolder connectionHolder) throws Exception {
+		if (connectionHolder.db == DbTarget.MOCK) {
+			mapper.forEach(new MockResultSet(limit),
+					new RowHandler<SmallBenchmarkObject>() {
+						@Override
+						public void handle(SmallBenchmarkObject o)
+								throws Exception {
+							blackhole.consume(o);
+						}
+					});
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 
