@@ -1,9 +1,5 @@
 package org.sfm.benchmark.csv;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-
 import org.apache.commons.io.input.CharSequenceReader;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
