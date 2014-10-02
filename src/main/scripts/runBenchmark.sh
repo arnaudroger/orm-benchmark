@@ -21,11 +21,11 @@ echo change cpu freq
 $SCRIPTS/cpuPreBenchmark.sh
 
 echo exec MOCK   $BENCHMARK/data/jmh/${DATE}_0mock.csv
-$SCRIPTS/runAll.sh MOCK > $BENCHMARK/data/jmh/${DATE}_0mock.csv
+$SCRIPTS/runDbJmh.sh MOCK > $BENCHMARK/data/jmh/${DATE}_0mock.csv
 echo exec HSQLDB $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
-$SCRIPTS/runAll.sh HSQLDB  > $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
+$SCRIPTS/runDbJmh.sh HSQLDB  > $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
 echo exec MYSQL  $BENCHMARK/data/jmh/${DATE}_2mysql.csv
-$SCRIPTS/runAll.sh MYSQL  > $BENCHMARK/data/jmh/${DATE}_2mysql.csv
+$SCRIPTS/runDbJmh.sh MYSQL  > $BENCHMARK/data/jmh/${DATE}_2mysql.csv
 
 echo reset cpu freq
 $SCRIPTS/cpuPostBenchmark.sh

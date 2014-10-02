@@ -11,8 +11,8 @@ DB=$1
 
 shift
 
-NB_ITERATION=1
-LIMIT=1
+NB_ITERATION=10
+LIMIT=1,10,100,1000
 
 function runJmh() {
     benchmark=$1
