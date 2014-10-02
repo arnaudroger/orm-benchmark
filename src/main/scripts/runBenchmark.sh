@@ -20,11 +20,11 @@ DATE=`date +%Y%m%d_%H%M%S`
 echo change cpu freq
 $SCRIPTS/cpuPreBenchmark.sh
 
-echo exec mock   $BENCHMARK/data/jmh/${DATE}_0mock.csv
+echo exec MOCK   $BENCHMARK/data/jmh/${DATE}_0mock.csv
 $SCRIPTS/allJmh.sh mock > $BENCHMARK/data/jmh/${DATE}_0mock.csv
-echo exec hsqldb $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
+echo exec HSQLDB $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
 $SCRIPTS/allJmh.sh hsqldb  > $BENCHMARK/data/jmh/${DATE}_1hsqldb.csv
-echo exec mysql  $BENCHMARK/data/jmh/${DATE}_2mysql.csv
+echo exec MYSQL  $BENCHMARK/data/jmh/${DATE}_2mysql.csv
 $SCRIPTS/allJmh.sh mysql  > $BENCHMARK/data/jmh/${DATE}_2mysql.csv
 
 echo reset cpu freq
