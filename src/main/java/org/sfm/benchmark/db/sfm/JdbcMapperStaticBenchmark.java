@@ -15,7 +15,6 @@ import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.LimitParam;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.jdbc.JdbcMapperFactory;
-import org.sfm.utils.RowHandler;
 
 @State(Scope.Benchmark)
 public class JdbcMapperStaticBenchmark  {
@@ -44,14 +43,12 @@ public class JdbcMapperStaticBenchmark  {
 			try {
 				ps.setInt(1, limit.limit);
 				ResultSet rs = ps.executeQuery();
-				mapper.forEach(rs,
-						new RowHandler<SmallBenchmarkObject>() {
-							@Override
-							public void handle(SmallBenchmarkObject o)
-									throws Exception {
-								blackhole.consume(o);
-							}
-						});
+				
+				while(rs.next()) {
+					Object o = mapper.map(rs);
+					blackhole.consume(o);
+				}
+				
 			}finally {
 				ps.close();
 			}

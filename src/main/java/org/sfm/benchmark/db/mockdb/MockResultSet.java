@@ -63,30 +63,34 @@ public class MockResultSet implements ResultSet {
 	
 	@Override
 	public String getString(String columnLabel) throws SQLException {
-		if (columnLabel.startsWith("name")) {
-			 return "name";
-		} else if (columnLabel.startsWith("email")) {
-			return "email";
-		}
-		throw new SQLException("invalid column name " + columnLabel);
+		return getString(getColumnIndex(columnLabel));
 	}
 	
+	private int getColumnIndex(String columnLabel) throws SQLException {
+		if (columnLabel.startsWith("id")) {
+			return 1;
+		}
+		if (columnLabel.startsWith("name")) {
+			return 2;
+		} 
+		if (columnLabel.startsWith("email")) {
+			return 3;
+		} 
+		if (columnLabel.startsWith("year_sta")) {
+			return 4;
+		} 
+		
+		throw new SQLException("invalid column columnLabel " + columnLabel);
+	}
+
 	@Override
 	public int getInt(String columnLabel) throws SQLException {
-		if (columnLabel.startsWith("year_sta")) {
-			return 2000 + i;
-		}  else {
-			throw new SQLException("invalid column name " + columnLabel);
-		}
+		return getInt(getColumnIndex(columnLabel));
 	}
 
 	@Override
 	public long getLong(String columnLabel) throws SQLException {
-		if (columnLabel.startsWith("id")) {
-			return i;
-		}  else {
-			throw new SQLException("invalid column name " + columnLabel);
-		}
+		return getLong(getColumnIndex(columnLabel));
 	}
 
 	@Override
