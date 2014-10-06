@@ -13,13 +13,14 @@ shift
 
 NB_ITERATION=10
 LIMIT=1,10,100,1000
+THREAD=1
 
 function runJmh() {
     benchmark=$1
     shift
     benchmarkname=$1
     shift
-	java -jar $TARGET/benchmarks.jar $benchmark -foe true -gc true -rf csv -i $NB_ITERATION -wi $NB_ITERATION -f $NB_ITERATION -v SILENT -bm sample -tu ns -p db=$DB -rff $TARGET/jmh.out $*
+	java -jar $TARGET/benchmarks.jar $benchmark -foe true -gc true -rf csv -i $NB_ITERATION -wi $NB_ITERATION -f $NB_ITERATION -v SILENT -bm sample -tu ns -p db=$DB -t $THREAD -rff $TARGET/jmh.out $*
 	tail -n +2 $TARGET/jmh.out  | tr -d '\r'  | awk -v name=$benchmarkname -F , '{ printf "%s,%s,%s,%s,%s\n", name, $9, $5, $6, $4  }'
 }
 
