@@ -19,7 +19,6 @@ import org.sql2o.Sql2o;
 public class Sql2OBenchmark {
 
 	private Sql2o sql2o;
-	private Blackhole blackhole = new Blackhole();
 	
 	@Param(value="MOCK")
 	DbTarget db;
@@ -33,7 +32,7 @@ public class Sql2OBenchmark {
 	}
 	
 	@Benchmark
-	public void testQuery(LimitParam limit) throws Exception {
+	public void testQuery(LimitParam limit, final Blackhole blackhole) throws Exception {
 		
 		org.sql2o.Connection conn = sql2o.open();
 		try  {

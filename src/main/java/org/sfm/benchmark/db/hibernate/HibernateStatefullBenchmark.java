@@ -20,7 +20,6 @@ import org.sfm.benchmark.db.jmh.LimitParam;
 public class HibernateStatefullBenchmark {
 
 	private SessionFactory sf;
-	private Blackhole blackhole = new Blackhole();
 	
 	@Param(value="MOCK")
 	DbTarget db;
@@ -37,7 +36,7 @@ public class HibernateStatefullBenchmark {
 	}
 
 	@Benchmark
-	public void testQuery(LimitParam limit) throws Exception {
+	public void testQuery(LimitParam limit, final Blackhole blackhole) throws Exception {
 		Session session = sf.openSession();
 		try {
 			Query query = session.createQuery("from SmallBenchmarkObject");

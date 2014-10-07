@@ -21,8 +21,6 @@ import org.sfm.benchmark.db.jmh.LimitParam;
 public class MyBatisBenchmark  {
 
 	private SqlSessionFactory sqlSessionFactory;
-	private Blackhole blackhole = new Blackhole();
-	
 	@Param(value="MOCK")
 	DbTarget db;
 	
@@ -36,7 +34,7 @@ public class MyBatisBenchmark  {
 	
 	
 	@Benchmark
-	public void testQuery(LimitParam limit) throws Exception {
+	public void testQuery(LimitParam limit, final Blackhole blackhole) throws Exception {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
 			session.select("selectSmallBenchmarkObjectsWithLimit", limit, new ResultHandler() {

@@ -16,8 +16,6 @@ import org.sfm.benchmark.db.jmh.LimitParam;
 @State(Scope.Benchmark)
 public class PureJdbcBenchmark  {
 	
-	private Blackhole blackhole = new Blackhole();
-	
 	private RowMapper<?> mapper;
 	
 	@Setup
@@ -36,7 +34,7 @@ public class PureJdbcBenchmark  {
 	}
 	
 	@Benchmark
-	public void testQuery(ConnectionParam connectionHolder, LimitParam limit) throws Exception {
+	public void testQuery(ConnectionParam connectionHolder, LimitParam limit, final Blackhole blackhole) throws Exception {
 		Connection conn = connectionHolder.getConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");

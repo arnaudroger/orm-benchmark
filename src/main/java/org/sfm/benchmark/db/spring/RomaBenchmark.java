@@ -17,7 +17,6 @@ import org.springframework.jdbc.core.RowMapper;
 @State(Scope.Benchmark)
 public class RomaBenchmark {
 	private RowMapper<SmallBenchmarkObject> mapper ;
-	private Blackhole blackhole = new Blackhole();
 
 	@Setup
 	public void init() {
@@ -25,7 +24,7 @@ public class RomaBenchmark {
 	}
 
 	@Benchmark
-	public void testQuery(ConnectionParam connectionHolder, LimitParam limit) throws Exception {
+	public void testQuery(ConnectionParam connectionHolder, LimitParam limit, final Blackhole blackhole) throws Exception {
 		Connection conn = connectionHolder.getConnection();
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");
