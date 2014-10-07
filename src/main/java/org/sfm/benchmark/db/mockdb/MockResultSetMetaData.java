@@ -80,12 +80,12 @@ public class MockResultSetMetaData implements ResultSetMetaData {
 
 	@Override
 	public int getPrecision(int column) throws SQLException {
-		throw new UnsupportedOperationException();
+		return 0;
 	}
 
 	@Override
 	public int getScale(int column) throws SQLException {
-		throw new UnsupportedOperationException();
+		return 0;
 	}
 
 	@Override
@@ -112,7 +112,14 @@ public class MockResultSetMetaData implements ResultSetMetaData {
 
 	@Override
 	public String getColumnTypeName(int column) throws SQLException {
-		throw new UnsupportedOperationException();
+		switch (column) {
+		case 1: return "bigint";
+		case 2: return "varchar";
+		case 3: return  "varchar";
+		case 4: return "int";
+		default:
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	@Override

@@ -107,26 +107,10 @@ public class MockPreparedStatement implements PreparedStatement {
 	@Override
 	public ResultSet getResultSet() throws SQLException {
 		if (limit == 0 ) {
-			limit = getLimit(sql);
+			throw new UnsupportedOperationException("No Limit set");
 		}
 			
 		return new MockResultSet(limit);
-	}
-
-	private int getLimit(String sql) {
-		int limit = 0;
-		int mult = 1;
-		for(int i = sql.length() - 1; i >= 0; i++) {
-			char c = sql.charAt(i);
-			if (c >= '0' && c <= '9') {
-				int n = c - '0';
-				limit += n * mult;
-				mult *= 10;
-			} else if (limit > 0) {
-				return limit;
-			}
-		}
-		return limit;
 	}
 
 	@Override
@@ -304,7 +288,9 @@ public class MockPreparedStatement implements PreparedStatement {
 
 	@Override
 	public void setInt(int parameterIndex, int x) throws SQLException {
-		limit = x;
+		if (parameterIndex == 1) {
+			limit = x;
+		}
 	}
 
 	@Override
