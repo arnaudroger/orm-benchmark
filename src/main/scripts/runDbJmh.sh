@@ -32,6 +32,7 @@ runJmh JdbcMapperDynamic JdbcMapperDynamic -p useAsm=true -p limit=$LIMIT
 runJmh JdbcMapperDynamic JdbcMapperDynamicNoAsm -p useAsm=false -p limit=$LIMIT
 runJmh Roma Roma -p useAsm=false -p limit=$LIMIT
 runJmh Sql2O Sql2o -p limit=$LIMIT
+runJmh Jooq Jooq -p limit=$LIMIT
 runJmh Hibernate Hibernate -p limit=$LIMIT
 runJmh MyBatis MyBatis -p limit=$LIMIT
 runJmh RowMapper RowMapper -p limit=$LIMIT
