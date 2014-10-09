@@ -26,9 +26,7 @@ import java.util.Calendar;
 public class MockPreparedStatement implements PreparedStatement {
 
 	private int limit;
-	private String sql;
-	public MockPreparedStatement(String sql) {
-		this.sql = sql;
+	public MockPreparedStatement() {
 	}
 
 	@Override

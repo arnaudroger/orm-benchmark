@@ -38,7 +38,7 @@ public class MockConnection implements Connection {
 
 	@Override
 	public PreparedStatement prepareStatement(String sql) throws SQLException {
-		return new MockPreparedStatement(sql);
+		return new MockPreparedStatement();
 	}
 
 	@Override
