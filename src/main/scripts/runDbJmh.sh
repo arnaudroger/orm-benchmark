@@ -13,6 +13,7 @@ shift
 
 NB_ITERATION=10
 LIMIT=1,10,100,1000
+#LIMIT=10
 THREAD=1
 
 function runJmh() {
