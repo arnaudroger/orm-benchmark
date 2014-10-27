@@ -16,7 +16,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 
 public class ConnectionHelper {
 	
-	private static final int NB_BENCHMARK_OBJECT = 10000;
+	private static final int NB_BENCHMARK_OBJECT = 1000000;
 	
 	public static DataSource getDataSource(DbTarget db) {
 		switch (db) {
@@ -87,12 +87,14 @@ public class ConnectionHelper {
 				rs.next();
 				if (rs.getLong(1) == NB_BENCHMARK_OBJECT) {
 					return;
+				} else {
+					st.execute("delete from test_small_benchmark_object");
 				}
 			}catch(Exception e) {
 				// ignore
+				createSmallBenchmarkObject(st);
 			}
 			
-			createSmallBenchmarkObject(st);
 
 			PreparedStatement ps = c.prepareStatement("insert into test_small_benchmark_object values(?, ?, ?, ?)");
 			for(int i = 0; i < NB_BENCHMARK_OBJECT; i++) {
@@ -100,9 +102,15 @@ public class ConnectionHelper {
 				ps.setString(2, "name " + i);
 				ps.setString(3, "name" + i + "@gmail.com");
 				ps.setInt(4, 2000 + (i % 14));
-				ps.execute();
+				ps.addBatch();
+				
+				if (i%1000 == 0) {
+					System.out.println("insert 1000");
+					ps.executeBatch();
+				}
 			}
 			
+			ps.executeBatch();
 
 		} finally {
 			st.close();
