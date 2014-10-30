@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.jooq.impl.DefaultConfiguration;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
@@ -16,10 +15,9 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
-import org.sfm.jdbc.jooq.SfmRecordMapperProvider;
 
 @State(Scope.Benchmark)
-public class JooqBenchmark {
+public class JooqWithSfmMappingBenchmark {
 
 	@Param(value="MOCK")
 	private DbTarget db;
@@ -30,10 +28,7 @@ public class JooqBenchmark {
 		ConnectionParam cp = new ConnectionParam();
 		cp.db = db;
 		cp.init();
-		create = DSL.
-				using(new DefaultConfiguration().set(cp.dataSource)
-						.set(db.getSqlDialect())
-						.set(new SfmRecordMapperProvider()));
+		create = DSL.using(cp.dataSource, db.getSqlDialect());
 	}
 	
 	@Benchmark
