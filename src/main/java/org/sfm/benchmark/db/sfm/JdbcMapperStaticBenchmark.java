@@ -27,10 +27,10 @@ public class JdbcMapperStaticBenchmark  {
 	@Setup
 	public void init() {
 		mapper = JdbcMapperFactory.newInstance().useAsm(useAsm).newBuilder(SmallBenchmarkObject.class)
-				.addIndexedColumn("id")
-				.addIndexedColumn("name")
-				.addIndexedColumn("email")
-				.addIndexedColumn("year_started").mapper();
+				.addMapping("id")
+				.addMapping("name")
+				.addMapping("email")
+				.addMapping("year_started").mapper();
 	}
 	
 	@Benchmark
