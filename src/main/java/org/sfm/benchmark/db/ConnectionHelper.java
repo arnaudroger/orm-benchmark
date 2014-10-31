@@ -16,7 +16,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 
 public class ConnectionHelper {
 	
-	private static final int NB_BENCHMARK_OBJECT = 1000000;
+	private static final int NB_BENCHMARK_OBJECT = 1000;
 	
 	public static DataSource getDataSource(DbTarget db) {
 		switch (db) {
@@ -104,10 +104,6 @@ public class ConnectionHelper {
 				ps.setInt(4, 2000 + (i % 14));
 				ps.addBatch();
 				
-				if (i%1000 == 0) {
-					System.out.println("insert 1000");
-					ps.executeBatch();
-				}
 			}
 			
 			ps.executeBatch();
