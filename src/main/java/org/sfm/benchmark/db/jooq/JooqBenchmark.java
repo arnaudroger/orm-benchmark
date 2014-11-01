@@ -16,7 +16,6 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
-import org.sfm.jdbc.jooq.SfmRecordMapperProvider;
 
 @State(Scope.Benchmark)
 public class JooqBenchmark {
@@ -32,8 +31,7 @@ public class JooqBenchmark {
 		cp.init();
 		create = DSL.
 				using(new DefaultConfiguration().set(cp.dataSource)
-						.set(db.getSqlDialect())
-						.set(new SfmRecordMapperProvider()));
+						.set(db.getSqlDialect()));
 	}
 	
 	@Benchmark
