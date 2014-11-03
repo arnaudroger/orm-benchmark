@@ -16,7 +16,7 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
-import org.sfm.jdbc.jooq.SfmRecordMapperProvider;
+import org.sfm.jooq.SfmRecordMapperProvider;
 
 @State(Scope.Benchmark)
 public class JooqWithSfmMappingBenchmark {
