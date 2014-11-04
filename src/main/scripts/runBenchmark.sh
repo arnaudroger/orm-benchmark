@@ -10,8 +10,8 @@ PROJECT=$DIR/../../..
 BENCHMARK=$PROJECT/src/main/results
 SCRIPTS=$PROJECT/src/main/scripts
 
-
-mvn clean install -f $PROJECT/pom.xml
+echo $BENCHMARK
+#mvn clean install -f $PROJECT/pom.xml
 
 mkdir -p $BENCHMARK/data/jmh
 

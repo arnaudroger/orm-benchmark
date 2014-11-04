@@ -27,5 +27,5 @@ java -jar $TARGET/benchmarks.jar\
  -bm avgt -tu ns -t $THREAD\
  -p db=$DB\
  -p limit=$LIMIT\
- -rff $TARGET/$OUTFILE $*
+ -rff $OUTFILE $*
 
