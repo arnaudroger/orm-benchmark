@@ -35,9 +35,8 @@ public class CsvBenchmark {
 	private ObjectReader reader = new com.fasterxml.jackson.dataformat.csv.CsvMapper()
 			.reader(SmallBenchmarkObject.class);
 	
-	@Param(value="1000")
-	private int nbRows;
-
+	@Param(value={"1", "10", "100", "1000", "10000", "100000", "1000000"})
+	public int limit;
 	@Setup
 	public void init() {
 		mapper = new CsvMapperBuilder<SmallBenchmarkObject>(
@@ -49,7 +48,7 @@ public class CsvBenchmark {
 				.addColumn("name").addColumn("email").build();
 
 		StringBuilder os = new StringBuilder();
-		for (int i = 0; i < nbRows; i++) {
+		for (int i = 0; i < limit; i++) {
 			os.append(Integer.toString(i));
 			os.append(',');
 			os.append(Integer.toString(i + 2000));
