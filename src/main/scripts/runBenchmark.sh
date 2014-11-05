@@ -11,7 +11,7 @@ BENCHMARK=$PROJECT/src/main/results
 SCRIPTS=$PROJECT/src/main/scripts
 
 echo $BENCHMARK
-#mvn clean install -f $PROJECT/pom.xml
+mvn clean install -f $PROJECT/pom.xml
 
 mkdir -p $BENCHMARK/data/jmh
 
