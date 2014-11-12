@@ -3,6 +3,9 @@ package org.sfm.benchmark.db.jmh;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.openjdk.jmh.annotations.Param;
@@ -20,8 +23,18 @@ public class ConnectionParam {
 	public DataSource dataSource;
 	
 	@Setup
-	public void init() throws SQLException {
+	public void init() throws SQLException, NamingException {
 		dataSource = ConnectionHelper.getDataSource(db);
+		
+		// Create initial context
+		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+				org.apache.naming.java.javaURLContextFactory.class.getName());
+		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
+		InitialContext ic = new InitialContext();
+
+		try {
+			ic.bind("java:datasource", dataSource);
+		} catch(Exception e) {};
 		
 		if (db != DbTarget.MOCK) {
 			Connection conn = dataSource.getConnection();

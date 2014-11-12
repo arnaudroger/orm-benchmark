@@ -26,7 +26,7 @@ public class JooqWithSfmMappingBenchmark {
 	private DSLContext create;
 
 	@Setup
-	public void init() throws SQLException {
+	public void init() throws Exception {
 		ConnectionParam cp = new ConnectionParam();
 		cp.db = db;
 		cp.init();

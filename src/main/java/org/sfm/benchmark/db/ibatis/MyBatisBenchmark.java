@@ -25,7 +25,7 @@ public class MyBatisBenchmark  {
 	DbTarget db;
 	
 	@Setup
-	public void init() throws SQLException  {
+	public void init() throws Exception  {
 		ConnectionParam connParam = new ConnectionParam();
 		connParam.db = db;
 		connParam.init();

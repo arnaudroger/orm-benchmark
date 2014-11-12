@@ -15,6 +15,7 @@ import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.LimitParam;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.jdbc.JdbcMapperFactory;
+import org.sfm.reflect.asm.AsmHelper;
 
 @State(Scope.Benchmark)
 public class JdbcMapperStaticBenchmark  {
@@ -26,6 +27,10 @@ public class JdbcMapperStaticBenchmark  {
 	
 	@Setup
 	public void init() {
+		
+		if (useAsm && ! AsmHelper.isAsmPresent()) {
+			throw new RuntimeException("Asm not present or incompatible");
+		}
 		mapper = JdbcMapperFactory.newInstance().useAsm(useAsm).newBuilder(SmallBenchmarkObject.class)
 				.addMapping("id")
 				.addMapping("name")
@@ -55,5 +60,9 @@ public class JdbcMapperStaticBenchmark  {
 		}
 	}
 	
+	
+	public static void main(String[] args) {
+		
+	}
 
 }

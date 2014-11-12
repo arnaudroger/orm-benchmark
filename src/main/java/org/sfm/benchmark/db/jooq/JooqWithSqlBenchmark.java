@@ -18,14 +18,14 @@ import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
 
 @State(Scope.Benchmark)
-public class JooqBenchmark {
+public class JooqWithSqlBenchmark {
 
 	@Param(value="MOCK")
 	private DbTarget db;
 	private DSLContext create;
 
 	@Setup
-	public void init() throws SQLException {
+	public void init() throws Exception {
 		ConnectionParam cp = new ConnectionParam();
 		cp.db = db;
 		cp.init();
@@ -42,7 +42,20 @@ public class JooqBenchmark {
         	blackhole.consume(o);
         }
 	}
-	
 
+	
+	public static void main(String[] args) throws Exception {
+		ConnectionParam cp = new ConnectionParam();
+		cp.db = DbTarget.HSQLDB;
+		cp.init();
+		DSLContext create = DSL.
+				using(new DefaultConfiguration().set(cp.dataSource)
+						.set(cp.db.getSqlDialect()));
+		
+		 List<SmallBenchmarkObject> result = create.select().from("test_small_benchmark_object").limit(2).fetch().into(SmallBenchmarkObject.class);
+	        for(SmallBenchmarkObject o : result) {
+	        	System.out.println(o.toString());
+	        }
+	}
 	
 }
