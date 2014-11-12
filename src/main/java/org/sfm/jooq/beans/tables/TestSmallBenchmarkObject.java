@@ -28,28 +28,28 @@ public class TestSmallBenchmarkObject extends org.jooq.impl.TableImpl<org.sfm.jo
 	/**
 	 * The column <code>sfm.test_small_benchmark_object.id</code>.
 	 */
-	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.Long> ID = createField("ID", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
 	/**
 	 * The column <code>sfm.test_small_benchmark_object.name</code>.
 	 */
-	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
 
 	/**
 	 * The column <code>sfm.test_small_benchmark_object.email</code>.
 	 */
-	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.String> EMAIL = createField("EMAIL", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
 
 	/**
 	 * The column <code>sfm.test_small_benchmark_object.year_started</code>.
 	 */
-	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.Integer> YEAR_STARTED = createField("year_started", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final org.jooq.TableField<org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord, java.lang.Integer> YEAR_STARTED = createField("YEAR_STARTED", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>sfm.test_small_benchmark_object</code> table reference
 	 */
 	public TestSmallBenchmarkObject() {
-		this("test_small_benchmark_object", null);
+		this("TEST_SMALL_BENCHMARK_OBJECT", null);
 	}
 
 	/**

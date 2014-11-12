@@ -11,32 +11,32 @@ import org.springframework.jdbc.roma.config.provider.annotation.RowMapperField;
 @Table(name="test_small_benchmark_object")
 public class SmallBenchmarkObject {
 	
-	@RowMapperField(columnName="id")
+	@RowMapperField(columnName="ID")
 	@Id
 	private long id;
 	
-	@RowMapperField(columnName="year_started")
+	@RowMapperField(columnName="YEAR_STARTED")
 	private int yearStarted;
-	@RowMapperField(columnName="name")
+	@RowMapperField(columnName="NAME")
 	private String name;
-	@RowMapperField(columnName="email")
+	@RowMapperField(columnName="EMAIL")
 	private String email;
 	
-	@Column(name="id")
+	@Column(name="ID")
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-	@Column(name="name")
+	@Column(name="NAME")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	@Column(name="email")
+	@Column(name="EMAIL")
 	public String getEmail() {
 		return email;
 	}
@@ -44,7 +44,7 @@ public class SmallBenchmarkObject {
 		this.email = email;
 	}
 	
-	@Column(name="year_started")
+	@Column(name="YEAR_STARTED")
 	public int getYearStarted() {
 		return yearStarted;
 	}
