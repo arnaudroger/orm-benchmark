@@ -15,6 +15,7 @@ import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
 import org.sfm.jooq.beans.tables.TestSmallBenchmarkObject;
+import org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord;
 
 @State(Scope.Benchmark)
 public class JooqWithRecordNoMappingBenchmark {
@@ -36,7 +37,8 @@ public class JooqWithRecordNoMappingBenchmark {
 	public void testQuery(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
         Result<Record> result = create.select().from(TestSmallBenchmarkObject.TEST_SMALL_BENCHMARK_OBJECT).limit(limit.limit).fetch();
         for(Record o : result) {
-        	blackhole.consume(o);
+        	TestSmallBenchmarkObjectRecord sbo = (TestSmallBenchmarkObjectRecord) o;
+        	blackhole.consume(sbo);
         }
 	}
 
