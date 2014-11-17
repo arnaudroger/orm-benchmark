@@ -54,25 +54,6 @@ public class JooqBenchmark {
 	}
 	
 	@Benchmark
-	public void testFetchRecordWithJooqMapper(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
-		
-        List<SmallBenchmarkObject> result = dslNoSfmMapping.select().from(TestSmallBenchmarkObject.TEST_SMALL_BENCHMARK_OBJECT).limit(limit.limit).fetch().into(SmallBenchmarkObject.class);
-        for(SmallBenchmarkObject o : result) {
-        	blackhole.consume(o);
-        }
-	}
-	
-	@Benchmark
-	public void testFetchRecordWithSfmMapper(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
-		
-        List<SmallBenchmarkObject> result = dslSfmMapping.select().from(TestSmallBenchmarkObject.TEST_SMALL_BENCHMARK_OBJECT).limit(limit.limit).fetch().into(SmallBenchmarkObject.class);
-        for(SmallBenchmarkObject o : result) {
-        	blackhole.consume(o);
-        }
-	}
-	
-	
-	@Benchmark
 	public void testSqlWithJooqMapper(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
         List<SmallBenchmarkObject> result = dslNoSfmMapping.select().from("test_small_benchmark_object").limit(limit.limit).fetch().into(SmallBenchmarkObject.class);
         for(SmallBenchmarkObject o : result) {
