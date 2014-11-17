@@ -130,7 +130,8 @@ questions.
 		<dependency>
 			<groupId>com.github.arnaudroger</groupId>
 			<artifactId>simpleFlatMapper</artifactId>
-			<version>1.0.0b3-SNAPSHOT</version>
+			<version>1.0.0b3</version>
+			<classifier>jdk16</classifier>
 		</dependency>
 	   <dependency>
 	        <groupId>org.springframework</groupId>
