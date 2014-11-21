@@ -48,7 +48,7 @@ public class BatooBenchmark {
 		sf = Persistence.createEntityManagerFactory("batoo" );
 	}
 
-	@Benchmark
+	//@Benchmark
 	public void testQuery(LimitParam limit, final Blackhole blackhole) throws Exception {
 		EntityManager session = sf.createEntityManager();
 		try {
