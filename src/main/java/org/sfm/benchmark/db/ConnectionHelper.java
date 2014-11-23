@@ -17,7 +17,8 @@ import com.jolbox.bonecp.BoneCPDataSource;
 public class ConnectionHelper {
 	
 	private static final int NB_BENCHMARK_OBJECT = 1000;
-	
+	public static final String TEST_SMALL_BENCHMARK_OBJECT = "TEST_SMALL_BENCHMARK_OBJECT";
+
 	public static DataSource getDataSource(DbTarget db) {
 		switch (db) {
 		case MOCK:
@@ -83,12 +84,12 @@ public class ConnectionHelper {
 		
 		try {
 			try {
-				ResultSet rs = st.executeQuery("select count(*) from test_small_benchmark_object");
+				ResultSet rs = st.executeQuery("select count(*) from " + TEST_SMALL_BENCHMARK_OBJECT);
 				rs.next();
 				if (rs.getLong(1) == NB_BENCHMARK_OBJECT) {
 					return;
 				} else {
-					st.execute("delete from test_small_benchmark_object");
+					st.execute("delete from " + TEST_SMALL_BENCHMARK_OBJECT);
 				}
 			}catch(Exception e) {
 				// ignore
@@ -96,7 +97,7 @@ public class ConnectionHelper {
 			}
 			
 
-			PreparedStatement ps = c.prepareStatement("insert into test_small_benchmark_object values(?, ?, ?, ?)");
+			PreparedStatement ps = c.prepareStatement("insert into " + TEST_SMALL_BENCHMARK_OBJECT + " values(?, ?, ?, ?)");
 			for(int i = 0; i < NB_BENCHMARK_OBJECT; i++) {
 				ps.setLong(1, i);
 				ps.setString(2, "name " + i);
@@ -115,7 +116,7 @@ public class ConnectionHelper {
 	}
 	
 	public static void createSmallBenchmarkObject(Statement st) throws SQLException {
-		st.execute("create table test_small_benchmark_object("
+		st.execute("create table " + TEST_SMALL_BENCHMARK_OBJECT + "("
 				+ " id bigint not null primary key,"
 				+ " name varchar(100), "
 				+ " email varchar(100),"
