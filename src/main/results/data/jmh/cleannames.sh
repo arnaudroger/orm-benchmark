@@ -8,5 +8,6 @@ sed -i.back 's/db.jooq.//g' $1
 sed -i.back 's/db.sfm.//g' $1
 sed -i.back 's/db.spring.//g' $1
 sed -i.back 's/db.sql2o.//g' $1
+sed -i.back 's/db.ibatis.//g' $1
 sed -i.back 's/Benchmark.testQuery//g' $1
 sed -i.back 's/Benchmark//g' $1
