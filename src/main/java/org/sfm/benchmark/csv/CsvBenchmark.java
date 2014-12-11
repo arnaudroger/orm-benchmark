@@ -1,7 +1,9 @@
 package org.sfm.benchmark.csv;
 
+import java.io.*;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;
@@ -12,6 +14,7 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.csv.CsvMapper;
 import org.sfm.csv.CsvMapperBuilder;
+import org.sfm.csv.CsvParser;
 import org.sfm.utils.RowHandler;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -29,12 +32,13 @@ import com.univocity.parsers.csv.CsvParserSettings;
 public class CsvBenchmark {
 
 	private CsvMapper<SmallBenchmarkObject> mapper;
-	private String chars;
+	private byte[] bytes;
 	
 	private CsvSchema schema;
-	private ObjectReader reader = new com.fasterxml.jackson.dataformat.csv.CsvMapper()
+	private ObjectReader oreader = new com.fasterxml.jackson.dataformat.csv.CsvMapper()
 			.reader(SmallBenchmarkObject.class);
-	
+
+	private File file;
 	@Param(value={"1", "10", "100", "1000", "10000", "100000", "1000000"})
 	public int limit;
 	@Setup
@@ -58,30 +62,48 @@ public class CsvBenchmark {
 			os.append(("name" + 1 + "@email.com"));
 			os.append('\n');
 		}
-		chars = os.toString();
+
+		try {
+			file = File.createTempFile("bench", ".txt");
+			FileUtils.write(file, os);
+		} catch (Exception e) {
+			throw new Error(e);
+		}
 
 	}
 
 	@Benchmark
 	public void testReadSfmCsvMapper(final Blackhole blackhole) throws Exception {
+		Reader reader = getReader();
+		try {
+			mapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+					new RowHandler<SmallBenchmarkObject>() {
+						@Override
+						public void handle(SmallBenchmarkObject t) throws Exception {
+							blackhole.consume(t);
+						}
+					});
+		} finally {
+			reader.close();
+		}
+	}
 
-		mapper.forEach(new CharSequenceReader(chars),
-				new RowHandler<SmallBenchmarkObject>() {
-					@Override
-					public void handle(SmallBenchmarkObject t) throws Exception {
-						blackhole.consume(t);
-					}
-				});
+	private Reader getReader() throws FileNotFoundException {
+		return new FileReader(file);
 	}
 
 	@Benchmark
 	public void testJacksonCsvMapper(final Blackhole blackhole) throws Exception {
-
-		MappingIterator<SmallBenchmarkObject> mi = reader.with(schema)
-				.readValues(new CharSequenceReader(chars));
+		Reader reader = getReader();
+		try {
+		MappingIterator<SmallBenchmarkObject> mi = oreader.with(schema)
+				.readValues(getReader());
 
 		while (mi.hasNext()) {
 			blackhole.consume(mi.next());
+		}
+		} finally {
+			reader.close();
 		}
 	}
 	
@@ -102,7 +124,13 @@ public class CsvBenchmark {
 	    parserSettings.setHeaderExtractionEnabled(true);
 
 	    com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(parserSettings);
-	    parser.parse(new CharSequenceReader(chars));
+
+		Reader reader = getReader();
+		try {
+	    parser.parse(getReader());
+		} finally {
+			reader.close();
+		}
 	}
 	
 	@Benchmark
@@ -111,11 +139,16 @@ public class CsvBenchmark {
 		HeaderColumnNameTranslateMappingStrategy<SmallBenchmarkObject> strategy = new HeaderColumnNameTranslateMappingStrategy<SmallBenchmarkObject>();
 		strategy.setType(SmallBenchmarkObject.class);
 
-		List<SmallBenchmarkObject> list = null;
-		CSVReader reader = new CSVReader(new CharSequenceReader(chars));
-		list = csvToBean.parse(strategy, reader);
-		
-		blackhole.consume(list);
+		Reader reader = getReader();
+		try {
+			List<SmallBenchmarkObject> list = null;
+			CSVReader csvreader = new CSVReader(getReader());
+			list = csvToBean.parse(strategy, csvreader);
+
+			blackhole.consume(list);
+		}finally {
+			reader.close();
+		}
 		
 	}
 
