@@ -29,7 +29,7 @@ import com.univocity.parsers.common.processor.BeanProcessor;
 import com.univocity.parsers.csv.CsvParserSettings;
 
 @State(Scope.Benchmark)
-public class CsvBenchmark {
+public class CsvMapperBenchmark {
 
 	private CsvMapper<SmallBenchmarkObject> mapper;
 	private byte[] bytes;
@@ -97,7 +97,7 @@ public class CsvBenchmark {
 		Reader reader = getReader();
 		try {
 		MappingIterator<SmallBenchmarkObject> mi = oreader.with(schema)
-				.readValues(getReader());
+				.readValues(reader);
 
 		while (mi.hasNext()) {
 			blackhole.consume(mi.next());
@@ -127,7 +127,7 @@ public class CsvBenchmark {
 
 		Reader reader = getReader();
 		try {
-	    parser.parse(getReader());
+	    parser.parse(reader);
 		} finally {
 			reader.close();
 		}
@@ -142,7 +142,7 @@ public class CsvBenchmark {
 		Reader reader = getReader();
 		try {
 			List<SmallBenchmarkObject> list = null;
-			CSVReader csvreader = new CSVReader(getReader());
+			CSVReader csvreader = new CSVReader(reader);
 			list = csvToBean.parse(strategy, csvreader);
 
 			blackhole.consume(list);
