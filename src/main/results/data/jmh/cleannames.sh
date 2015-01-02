@@ -1,7 +1,8 @@
 #!/bin/bash
 
 sed -i.back 's/org.sfm.benchmark.//g' $1
-sed -i.back 's/csv.CsvBenchmark.test//g' $1
+sed -i.back 's/csv.CsvMapper.test//g' $1
+sed -i.back 's/csv.CsvParser.test//g' $1
 sed -i.back 's/db.hibernate.//g' $1
 sed -i.back 's/db.jdbc.//g' $1
 sed -i.back 's/db.jooq.//g' $1
