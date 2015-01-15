@@ -13,16 +13,24 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
+import org.sfm.sql2o.SfmResultSetHandlerFactory;
+import org.sfm.sql2o.SfmResultSetHandlerFactoryBuilder;
+import org.sql2o.ResultSetHandlerFactory;
 import org.sql2o.Sql2o;
 
 @State(Scope.Benchmark)
 public class Sql2OBenchmark {
 
+	private final ResultSetHandlerFactory<SmallBenchmarkObject> factory;
 	private Sql2o sql2o;
 	
 	@Param(value="MOCK")
 	DbTarget db;
-	
+
+	public Sql2OBenchmark() {
+		factory = new SfmResultSetHandlerFactoryBuilder().newFactory(SmallBenchmarkObject.class);
+	}
+
 	@Setup
 	public void init() throws Exception  {
 		ConnectionParam connParam = new ConnectionParam();
@@ -47,7 +55,22 @@ public class Sql2OBenchmark {
 			conn.close();
 		}
 	}
-	
 
-	
+
+	@Benchmark
+	public void sfm(LimitParam limit, final Blackhole blackhole) throws Exception {
+
+		org.sql2o.Connection conn = sql2o.open();
+		try  {
+			List<?> list = conn.createQuery("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT :limit")
+					.addColumnMapping("YEAR_STARTED", "yearStarted")
+					.addParameter("limit", limit.limit)
+					.executeAndFetch(factory);
+			for(Object o : list) {
+				blackhole.consume(o);
+			}
+		} finally {
+			conn.close();
+		}
+	}
 }
