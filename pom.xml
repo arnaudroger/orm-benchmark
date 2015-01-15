@@ -131,7 +131,7 @@ questions.
 			<groupId>com.github.arnaudroger</groupId>
 			<artifactId>simpleFlatMapper</artifactId>
 			<version>1.3.0</version>
-			<classifier>jdk16</classifier>
+			<classifier>jdk17</classifier>
 		</dependency>
 	   <dependency>
 	        <groupId>org.springframework</groupId>
