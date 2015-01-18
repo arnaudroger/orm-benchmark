@@ -1,5 +1,6 @@
 package org.sfm.benchmark.db.jooq;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.jooq.DSLContext;
@@ -75,13 +76,18 @@ public class JooqBenchmark {
 	}
 	@Benchmark
 	public void testSqlSfmMapperOnResultSet(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
-		mapper.forEach(dslSfmMapping.select().from("test_small_benchmark_object").limit(limit.limit).fetchResultSet(),
+		ResultSet resultSet = dslSfmMapping.select().from("test_small_benchmark_object").limit(limit.limit).fetchResultSet();
+		try {
+			mapper.forEach(resultSet,
 
-				new RowHandler<SmallBenchmarkObject>() {
-					@Override
-					public void handle(SmallBenchmarkObject smallBenchmarkObject) throws Exception {
-						blackhole.consume(smallBenchmarkObject);
-					}
-				});
+					new RowHandler<SmallBenchmarkObject>() {
+						@Override
+						public void handle(SmallBenchmarkObject smallBenchmarkObject) throws Exception {
+							blackhole.consume(smallBenchmarkObject);
+						}
+					});
+		} finally {
+			 resultSet.close();
+		}
 	}
 }
