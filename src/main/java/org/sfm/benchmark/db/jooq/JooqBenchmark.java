@@ -17,9 +17,12 @@ import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 import org.sfm.benchmark.db.jmh.LimitParam;
+import org.sfm.jdbc.JdbcMapper;
+import org.sfm.jdbc.JdbcMapperFactory;
 import org.sfm.jooq.SfmRecordMapperProvider;
 import org.sfm.jooq.beans.tables.TestSmallBenchmarkObject;
 import org.sfm.jooq.beans.tables.records.TestSmallBenchmarkObjectRecord;
+import org.sfm.utils.RowHandler;
 
 @State(Scope.Benchmark)
 public class JooqBenchmark {
@@ -28,6 +31,8 @@ public class JooqBenchmark {
 	private DbTarget db;
 	private DSLContext dslNoSfmMapping;
 	private DSLContext dslSfmMapping;
+
+	private JdbcMapper<SmallBenchmarkObject> mapper = JdbcMapperFactory.newInstance().newMapper(SmallBenchmarkObject.class);
 
 	@Setup
 	public void init() throws Exception {
@@ -62,11 +67,21 @@ public class JooqBenchmark {
 	}
 	
 	@Benchmark
-	public void testSqlSmfMapper(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
+	public void testSqlSfmAsProviderMapper(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
         List<SmallBenchmarkObject> result = dslSfmMapping.select().from("test_small_benchmark_object").limit(limit.limit).fetch().into(SmallBenchmarkObject.class);
         for(SmallBenchmarkObject o : result) {
         	blackhole.consume(o);
         }
 	}
+	@Benchmark
+	public void testSqlSfmMapperOnResultSet(LimitParam limit, final Blackhole blackhole, ConnectionParam connectionParam) throws Exception {
+		mapper.forEach(dslSfmMapping.select().from("test_small_benchmark_object").limit(limit.limit).fetchResultSet(),
 
+				new RowHandler<SmallBenchmarkObject>() {
+					@Override
+					public void handle(SmallBenchmarkObject smallBenchmarkObject) throws Exception {
+						blackhole.consume(smallBenchmarkObject);
+					}
+				});
+	}
 }
