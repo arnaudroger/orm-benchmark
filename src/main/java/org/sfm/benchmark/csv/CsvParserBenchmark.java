@@ -110,7 +110,7 @@ public class CsvParserBenchmark {
 	}
 
 	@Benchmark
-	public void testJacksonCsvMapper(final Blackhole blackhole) throws Exception {
+	public void testJacksonCsvParser(final Blackhole blackhole) throws Exception {
 		Reader reader = getReader();
 		try {
 		MappingIterator<String[]> mi = csvMapper.readValues(reader);
