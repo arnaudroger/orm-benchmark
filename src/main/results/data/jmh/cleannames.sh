@@ -12,3 +12,5 @@ sed -i.back 's/db.sql2o.//g' $1
 sed -i.back 's/db.ibatis.//g' $1
 sed -i.back 's/Benchmark.testQuery//g' $1
 sed -i.back 's/Benchmark//g' $1
+
+rm *.back
