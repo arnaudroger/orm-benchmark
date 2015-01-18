@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.univocity.parsers.common.ParsingContext;
 import com.univocity.parsers.common.processor.BeanProcessor;
+import com.univocity.parsers.common.processor.RowProcessor;
 import com.univocity.parsers.csv.CsvParserSettings;
 import org.apache.commons.io.FileUtils;
 import org.openjdk.jmh.annotations.*;
@@ -118,6 +119,37 @@ public class CsvParserBenchmark {
 		while (mi.hasNext()) {
 			blackhole.consume(mi.next());
 		}
+		} finally {
+			reader.close();
+		}
+	}
+
+
+	@Benchmark
+	public void testUnivocityParser(final Blackhole blackhole) throws Exception {
+
+		CsvParserSettings settings = new CsvParserSettings();
+		settings.setRowProcessor(new RowProcessor() {
+			@Override
+			public void processStarted(ParsingContext parsingContext) {
+
+			}
+
+			@Override
+			public void rowProcessed(String[] strings, ParsingContext parsingContext) {
+				blackhole.consume(strings);
+			}
+
+			@Override
+			public void processEnded(ParsingContext parsingContext) {
+
+			}
+		});
+		com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(settings);
+		Reader reader = getReader();
+		try {
+
+			parser.parse(reader);
 		} finally {
 			reader.close();
 		}
