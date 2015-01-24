@@ -1,0 +1,5 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: db","Param: limit"
+"org.sfm.benchmark.db.jooq.JooqBenchmark.testSqlSfmMapperOnResultSet","avgt",1,100,30112.418745022685,157.81360394062546,"ns/op","HSQLDB","1"
+"org.sfm.benchmark.db.jooq.JooqBenchmark.testSqlSfmMapperOnResultSet","avgt",1,100,33812.98791755793,316.9896171871141,"ns/op","HSQLDB","10"
+"org.sfm.benchmark.db.jooq.JooqBenchmark.testSqlSfmMapperOnResultSet","avgt",1,100,70109.0675258744,156.48021862328477,"ns/op","HSQLDB","100"
+"org.sfm.benchmark.db.jooq.JooqBenchmark.testSqlSfmMapperOnResultSet","avgt",1,100,428113.0542405508,1183.900416945956,"ns/op","HSQLDB","1000"
