@@ -20,6 +20,7 @@ import org.sfm.benchmark.db.jmh.LimitParam;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.jdbc.JdbcMapperFactory;
 import org.sfm.reflect.asm.AsmHelper;
+import org.sfm.utils.RowHandler;
 
 @State(Scope.Benchmark)
 public class JdbcMapperDynamicBenchmark  {
@@ -51,6 +52,29 @@ public class JdbcMapperDynamicBenchmark  {
 					Object o = mapper.map(rs);
 					blackhole.consume(o);
 				}
+			}finally {
+				ps.close();
+			}
+		}finally {
+			conn.close();
+		}
+	}
+
+
+	@Benchmark
+	public void testQueryForEach(ConnectionParam connectionParam, LimitParam limitParam, final Blackhole blackhole) throws Exception {
+		Connection conn = connectionParam.getConnection();
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");
+			try {
+				ps.setInt(1, limitParam.limit);
+				ResultSet rs = ps.executeQuery();
+				mapper.forEach(rs, new RowHandler<SmallBenchmarkObject>() {
+					@Override
+					public void handle(SmallBenchmarkObject smallBenchmarkObject) throws Exception {
+						blackhole.consume(smallBenchmarkObject);
+					}
+				});
 			}finally {
 				ps.close();
 			}
