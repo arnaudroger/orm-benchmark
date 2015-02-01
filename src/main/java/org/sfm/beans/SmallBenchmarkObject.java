@@ -5,21 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.jdbc.roma.config.provider.annotation.RowMapperField;
 
 @Entity
 @Table(name="test_small_benchmark_object")
 public class SmallBenchmarkObject {
 	
-	@RowMapperField(columnName="ID")
 	@Id
 	private long id;
 	
-	@RowMapperField(columnName="YEAR_STARTED")
 	private int yearStarted;
-	@RowMapperField(columnName="NAME")
 	private String name;
-	@RowMapperField(columnName="EMAIL")
 	private String email;
 	
 	@Column(name="ID")
