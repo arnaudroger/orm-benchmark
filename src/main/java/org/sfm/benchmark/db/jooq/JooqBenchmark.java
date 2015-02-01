@@ -50,7 +50,7 @@ public class JooqBenchmark {
 						.set(db.getSqlDialect())
 						.set(new SfmRecordMapperProvider()));
 
-		dslSfmMappingselectFromSmallBenchMark = dslNoSfmMapping.selectFrom(TestSmallBenchmarkObject.TEST_SMALL_BENCHMARK_OBJECT);
+		dslSfmMappingselectFromSmallBenchMark = dslSfmMapping.selectFrom(TestSmallBenchmarkObject.TEST_SMALL_BENCHMARK_OBJECT);
 	}
 
 	
