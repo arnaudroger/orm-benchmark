@@ -128,9 +128,9 @@ questions.
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.arnaudroger</groupId>
+			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>simpleFlatMapper</artifactId>
-			<version>1.4.1</version>
+			<version>1.7.1</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 <!--
