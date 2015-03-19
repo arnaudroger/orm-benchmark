@@ -1,8 +1,6 @@
 #!/bin/bash
 
 sed -i.back 's/org.sfm.benchmark.//g' $1
-sed -i.back 's/csv.CsvMapper.test//g' $1
-sed -i.back 's/csv.CsvParser.test//g' $1
 sed -i.back 's/db.hibernate.//g' $1
 sed -i.back 's/db.jdbc.//g' $1
 sed -i.back 's/db.jooq.//g' $1
@@ -12,5 +10,7 @@ sed -i.back 's/db.sql2o.//g' $1
 sed -i.back 's/db.ibatis.//g' $1
 sed -i.back 's/Benchmark.testQuery//g' $1
 sed -i.back 's/Benchmark//g' $1
+sed -i.back 's/csv.CsvMapper.test//g' $1
+sed -i.back 's/csv.CsvParser.test//g' $1
 
 rm *.back
