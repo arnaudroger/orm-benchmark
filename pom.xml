@@ -130,7 +130,7 @@ questions.
 		<dependency>
 			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>simpleFlatMapper</artifactId>
-			<version>1.7.1</version>
+			<version>1.7.4-SNAPSHOT</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 <!--
@@ -205,7 +205,7 @@ questions.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jmh.version>1.5.1</jmh.version>
+        <jmh.version>1.6.3</jmh.version>
         <javac.target>1.6</javac.target>
         <uberjar.name>benchmarks</uberjar.name>
     </properties>
