@@ -24,7 +24,7 @@ sudo update-alternatives --set java /usr/lib/jvm/java-8-oracle/jre/bin/java
 
 $SCRIPTS/runDbJmh.sh HSQLDB $BENCHMARK/data/jmh/${DATE}_java8_1hsqldb.csv $*
 $SCRIPTS/runDbJmh.sh MYSQL $BENCHMARK/data/jmh/${DATE}_java8_2mysql.csv $*
-$SCRIPTS/runCsvJmh.sh MYSQL $BENCHMARK/data/jmh/${DATE}_java8_csv.csv $*
+$SCRIPTS/runCsvJmh.sh $BENCHMARK/data/jmh/${DATE}_java8_csv.csv $*
 
 echo reset cpu freq
 $SCRIPTS/cpuPostBenchmark.sh
