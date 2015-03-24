@@ -7,9 +7,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 TARGET=$DIR/../../../target
 
-DB=$1
-shift
-
 OUTFILE=$1
 shift
 
@@ -19,13 +16,12 @@ LIMIT=1,10,100,1000
 THREAD=1
 
 
-java -jar $TARGET/benchmarks.jar db\
+java -jar $TARGET/benchmarks.jar csv.CsvMapper\
  -foe true -rf csv\
  -i $NB_ITERATION\
  -wi $NB_ITERATION\
  -f $NB_ITERATION\
  -bm avgt -tu ns -t $THREAD\
- -p db=$DB\
  -p limit=$LIMIT\
  -rff $OUTFILE $*
 

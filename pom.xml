@@ -130,7 +130,7 @@ questions.
 		<dependency>
 			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>simpleFlatMapper</artifactId>
-			<version>1.7.4</version>
+			<version>1.7.5</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 <!--
