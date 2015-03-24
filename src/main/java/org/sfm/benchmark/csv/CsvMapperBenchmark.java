@@ -1,8 +1,10 @@
 package org.sfm.benchmark.csv;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.List;
 
+import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -11,9 +13,11 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.infra.Blackhole;
+import org.sfm.beans.FinalSmallBenchmarkObject;
 import org.sfm.beans.SmallBenchmarkObject;
 import org.sfm.csv.CsvMapper;
 import org.sfm.csv.CsvMapperBuilder;
+import org.sfm.csv.CsvMapperFactory;
 import org.sfm.csv.CsvParser;
 import org.sfm.utils.RowHandler;
 
@@ -32,7 +36,12 @@ import com.univocity.parsers.csv.CsvParserSettings;
 public class CsvMapperBenchmark {
 
 	private CsvMapper<SmallBenchmarkObject> mapper;
-	private byte[] bytes;
+    private CsvMapper<FinalSmallBenchmarkObject> finalMapper;
+
+    private CsvMapper<SmallBenchmarkObject> noAsmMapper;
+    private CsvMapper<FinalSmallBenchmarkObject> noAsmFinalMapper;
+
+    private byte[] bytes;
 	
 	private CsvSchema schema;
 	private ObjectReader oreader = new com.fasterxml.jackson.dataformat.csv.CsvMapper()
@@ -41,17 +50,44 @@ public class CsvMapperBenchmark {
 	private File file;
 	@Param(value={"1", "10", "100", "1000", "10000", "100000", "1000000"})
 	public int limit;
-	@Setup
+    private ColumnPositionMappingStrategy<SmallBenchmarkObject> strategy;
+
+    @Setup
 	public void init() {
-		mapper = new CsvMapperBuilder<SmallBenchmarkObject>(
-				SmallBenchmarkObject.class).addMapping("id")
-				.addMapping("year_started").addMapping("name")
-				.addMapping("email").mapper();
+		mapper = CsvMapperFactory.newInstance().newBuilder(SmallBenchmarkObject.class)
+                .addMapping("id")
+				.addMapping("year_started")
+                .addMapping("name")
+				.addMapping("email")
+                .mapper();
+        finalMapper = CsvMapperFactory.newInstance().newBuilder(FinalSmallBenchmarkObject.class)
+                .addMapping("id")
+                .addMapping("year_started")
+                .addMapping("name")
+                .addMapping("email")
+                .mapper();
+
+        noAsmMapper = CsvMapperFactory.newInstance().useAsm(false).newBuilder(SmallBenchmarkObject.class)
+                .addMapping("id")
+                .addMapping("year_started")
+                .addMapping("name")
+                .addMapping("email")
+                .mapper();
+        noAsmFinalMapper = CsvMapperFactory.newInstance().useAsm(false).newBuilder(FinalSmallBenchmarkObject.class)
+                .addMapping("id")
+                .addMapping("year_started")
+                .addMapping("name")
+                .addMapping("email")
+                .mapper();
 
 		schema = CsvSchema.builder().addColumn("id").addColumn("yearStarted")
 				.addColumn("name").addColumn("email").build();
 
-		StringBuilder os = new StringBuilder();
+        strategy = new ColumnPositionMappingStrategy<SmallBenchmarkObject>();
+        strategy.setType(SmallBenchmarkObject.class);
+        strategy.setColumnMapping(new String[] {"id", "yearStarted", "name", "email"});
+
+        StringBuilder os = new StringBuilder();
 		for (int i = 0; i < limit; i++) {
 			os.append(Integer.toString(i));
 			os.append(',');
@@ -87,6 +123,54 @@ public class CsvMapperBenchmark {
 			reader.close();
 		}
 	}
+
+    @Benchmark
+    public void testReadSfmCsvMapperNoAsm(final Blackhole blackhole) throws Exception {
+        Reader reader = getReader();
+        try {
+            noAsmMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+                    new RowHandler<SmallBenchmarkObject>() {
+                        @Override
+                        public void handle(SmallBenchmarkObject t) throws Exception {
+                            blackhole.consume(t);
+                        }
+                    });
+        } finally {
+            reader.close();
+        }
+    }
+
+    @Benchmark
+    public void testReadSfmCsvMapperFinal(final Blackhole blackhole) throws Exception {
+        Reader reader = getReader();
+        try {
+            finalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+                    new RowHandler<FinalSmallBenchmarkObject>() {
+                        @Override
+                        public void handle(FinalSmallBenchmarkObject t) throws Exception {
+                            blackhole.consume(t);
+                        }
+                    });
+        } finally {
+            reader.close();
+        }
+    }
+
+    @Benchmark
+    public void testReadSfmCsvMapperNoAsmFinal(final Blackhole blackhole) throws Exception {
+        Reader reader = getReader();
+        try {
+            noAsmFinalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+                    new RowHandler<FinalSmallBenchmarkObject>() {
+                        @Override
+                        public void handle(FinalSmallBenchmarkObject t) throws Exception {
+                            blackhole.consume(t);
+                        }
+                    });
+        } finally {
+            reader.close();
+        }
+    }
 
 	private Reader getReader() throws FileNotFoundException {
 		return new FileReader(file);
@@ -136,8 +220,6 @@ public class CsvMapperBenchmark {
 	@Benchmark
 	public void testOpenCsvMapper(final Blackhole blackhole) throws Exception {
 		CsvToBean<SmallBenchmarkObject> csvToBean = new CsvToBean<SmallBenchmarkObject>();
-		HeaderColumnNameTranslateMappingStrategy<SmallBenchmarkObject> strategy = new HeaderColumnNameTranslateMappingStrategy<SmallBenchmarkObject>();
-		strategy.setType(SmallBenchmarkObject.class);
 
 		Reader reader = getReader();
 		try {
