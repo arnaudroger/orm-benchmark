@@ -23,9 +23,9 @@ public class GenerateBeans {
 //            generateGSC(i);
 //        }
         //generateC(191);
-            generateGS(160);
-           generateGS(192);
-            generateGS(224);
+            generateGS(776);
+           generateGS(784);
+            generateGS(792);
     }
 
     private static void generateCGS(int i) throws IOException {
