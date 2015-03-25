@@ -30,6 +30,8 @@ $SCRIPTS/runCsvObjectSizeJmh.sh $BENCHMARK/data/jmh/${DATE}_java8_csv_objectsize
 echo reset cpu freq
 $SCRIPTS/cpuPostBenchmark.sh
 
+dbus-send --system --print-reply     --dest="org.freedesktop.UPower"
+/org/freedesktop/UPower     org.freedesktop.UPower.Suspend
 
 
 
