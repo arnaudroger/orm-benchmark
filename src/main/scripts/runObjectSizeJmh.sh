@@ -16,7 +16,7 @@ LIMIT=1000
 THREAD=1
 
 
-java -jar $TARGET/benchmarks.jar ObjectSizeGSCsvMapperBenchmark\
+java -jar $TARGET/benchmarks.jar ObjectSize \
  -foe true -rf csv\
  -i $NB_ITERATION\
  -wi $NB_ITERATION\
