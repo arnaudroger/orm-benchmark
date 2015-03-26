@@ -26,16 +26,6 @@ public class ConnectionParam {
 	public void init() throws SQLException, NamingException {
 		dataSource = ConnectionHelper.getDataSource(db);
 		
-		// Create initial context
-		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-				org.apache.naming.java.javaURLContextFactory.class.getName());
-		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
-		InitialContext ic = new InitialContext();
-
-		try {
-			ic.bind("java:datasource", dataSource);
-		} catch(Exception e) {};
-		
 		if (db != DbTarget.MOCK) {
 			Connection conn = dataSource.getConnection();
 			try {

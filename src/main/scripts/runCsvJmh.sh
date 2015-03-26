@@ -11,12 +11,12 @@ OUTFILE=$1
 shift
 
 NB_ITERATION=10
-LIMIT=1,10,100,1000
+LIMIT=1,5,10,100,1000,10000
 #LIMIT=10
 THREAD=1
 
 
-java -jar $TARGET/benchmarks.jar csv.CsvMapper  -e ObjectSize \
+java -jar $TARGET/benchmarks.jar csv.Csv  -e ObjectSize \
  -foe true -rf csv\
  -i $NB_ITERATION\
  -wi $NB_ITERATION\
