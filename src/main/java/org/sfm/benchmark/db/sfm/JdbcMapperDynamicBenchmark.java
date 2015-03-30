@@ -135,7 +135,7 @@ public class JdbcMapperDynamicBenchmark  {
 	public void testQuery(ConnectionParam connectionParam, LimitParam limitParam, Blackhole blackhole) throws Exception {
 		Connection conn = connectionParam.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");
+			PreparedStatement ps = conn.prepareStatement(JdbcMapperStaticBenchmark.SELECT_BENCHMARK_OBJ_WITH_LIMIT);
 			try {
 				ps.setInt(1, limitParam.limit);
 				ResultSet rs = ps.executeQuery();
@@ -156,7 +156,7 @@ public class JdbcMapperDynamicBenchmark  {
 	public void testQueryForEach(ConnectionParam connectionParam, LimitParam limitParam, final Blackhole blackhole) throws Exception {
 		Connection conn = connectionParam.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");
+			PreparedStatement ps = conn.prepareStatement(JdbcMapperStaticBenchmark.SELECT_BENCHMARK_OBJ_WITH_LIMIT);
 			try {
 				ps.setInt(1, limitParam.limit);
 				ResultSet rs = ps.executeQuery();

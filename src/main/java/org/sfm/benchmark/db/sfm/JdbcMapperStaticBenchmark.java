@@ -16,10 +16,12 @@ import org.sfm.benchmark.db.jmh.LimitParam;
 import org.sfm.jdbc.JdbcMapper;
 import org.sfm.jdbc.JdbcMapperFactory;
 import org.sfm.reflect.asm.AsmHelper;
+import org.sfm.utils.RowHandler;
 
 @State(Scope.Benchmark)
 public class JdbcMapperStaticBenchmark  {
-	
+
+	public static final String SELECT_BENCHMARK_OBJ_WITH_LIMIT = "SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?";
 	private JdbcMapper<SmallBenchmarkObject> mapper;
 	
 	@Param(value= {"true", "false"})
@@ -42,7 +44,7 @@ public class JdbcMapperStaticBenchmark  {
 	public void testQuery(ConnectionParam connectionHolder, LimitParam limit, final Blackhole blackhole) throws Exception {
 		Connection conn = connectionHolder.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT id, name, email, year_started FROM test_small_benchmark_object LIMIT ?");
+			PreparedStatement ps = conn.prepareStatement(SELECT_BENCHMARK_OBJ_WITH_LIMIT);
 			try {
 				ps.setInt(1, limit.limit);
 				ResultSet rs = ps.executeQuery();
@@ -56,6 +58,28 @@ public class JdbcMapperStaticBenchmark  {
 				ps.close();
 			}
 		} finally {
+			conn.close();
+		}
+	}
+
+	@Benchmark
+	public void testQueryForEach(ConnectionParam connectionParam, LimitParam limitParam, final Blackhole blackhole) throws Exception {
+		Connection conn = connectionParam.getConnection();
+		try {
+			PreparedStatement ps = conn.prepareStatement(SELECT_BENCHMARK_OBJ_WITH_LIMIT);
+			try {
+				ps.setInt(1, limitParam.limit);
+				ResultSet rs = ps.executeQuery();
+				mapper.forEach(rs, new RowHandler<SmallBenchmarkObject>() {
+					@Override
+					public void handle(SmallBenchmarkObject smallBenchmarkObject) throws Exception {
+						blackhole.consume(smallBenchmarkObject);
+					}
+				});
+			}finally {
+				ps.close();
+			}
+		}finally {
 			conn.close();
 		}
 	}

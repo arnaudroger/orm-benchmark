@@ -16,7 +16,7 @@ LIMIT=1,5,10,100,1000,10000
 THREAD=1
 
 
-java -jar $TARGET/benchmarks.jar csv.Csv  -e ObjectSize \
+java -jar $TARGET/benchmarks.jar csv.Csv \
  -foe true -rf csv\
  -i $NB_ITERATION\
  -wi $NB_ITERATION\
