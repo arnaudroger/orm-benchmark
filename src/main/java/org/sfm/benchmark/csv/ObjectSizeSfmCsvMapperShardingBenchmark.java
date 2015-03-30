@@ -13,20 +13,22 @@ import org.sfm.utils.RowHandler;
 import java.io.*;
 
 @State(Scope.Benchmark)
-public class ObjectSizeSfmCsvMapperBenchmark {
+public class ObjectSizeSfmCsvMapperShardingBenchmark {
 
 
     private CsvMapper<?> mapper;
 	private File file;
 
     @Param(value = { "2", "4", "8", "16", "32", "64", "128",
+            "256", "512", "1024"
+    })
+    private int methodSize;
+
+    @Param(value = { "2", "4", "8", "16", "32", "64", "128",
       "256", "512", "1024", "2048"
-    , "4096", "8192"
+    , "4096"
     })
     private int objectSize;
-
-    @Param(value= {"FULL_ASM", "PARTIAL_ASM", "NO_ASM"})
-    private AsmSatus useAsm;
 
 
     @Param(value= {"1000"})
@@ -42,12 +44,11 @@ public class ObjectSizeSfmCsvMapperBenchmark {
 	public void init() throws Exception {
 
         targetClass = Class.forName("org.sfm.beans."+ classType + objectSize);
-        int asmLimit = useAsm == AsmSatus.FULL_ASM ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 
         final CsvMapperBuilder<?> builder = CsvMapperFactory.newInstance()
                 .failOnAsm(true)
-                .asmMapperNbFieldsLimit(asmLimit)
-                .useAsm(useAsm != AsmSatus.NO_ASM)
+                .asmMapperNbFieldsLimit(Integer.MAX_VALUE)
+                .maxMethodSize(methodSize)
                 .newBuilder(targetClass);
 
         for(int i = 0; i < objectSize; i++) {
@@ -80,6 +81,7 @@ public class ObjectSizeSfmCsvMapperBenchmark {
             fw.close();
         }
     }
+
 
     @Benchmark
 	public void testMap(final Blackhole blackhole) throws Exception {
