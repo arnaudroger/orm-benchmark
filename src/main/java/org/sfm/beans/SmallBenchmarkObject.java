@@ -1,5 +1,7 @@
 package org.sfm.beans;
 
+import org.springframework.jdbc.roma.config.provider.annotation.RowMapperField;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,12 +13,16 @@ import javax.persistence.Table;
 public class SmallBenchmarkObject {
 	
 	@Id
+	@RowMapperField(columnName="ID")
 	private long id;
-	
+
+	@RowMapperField(columnName="YEAR_STARTED")
 	private int yearStarted;
+	@RowMapperField(columnName = "NAME")
 	private String name;
+	@RowMapperField(columnName="EMAIL")
 	private String email;
-	
+
 	@Column(name="ID")
 	public long getId() {
 		return id;
