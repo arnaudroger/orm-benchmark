@@ -17,7 +17,7 @@ THREAD=1
 
 
 java -jar $TARGET/benchmarks.jar ObjectSize \
- -foe true -rf csv\
+ -foe false -rf csv\
  -i $NB_ITERATION\
  -wi $NB_ITERATION\
  -f $NB_ITERATION\
