@@ -65,7 +65,7 @@ public class ObjectSizeSfmCsvMapperShardingBenchmark {
 
 
     private void writeCsv(int nb, File f) throws IOException {
-        FileWriter fw = new FileWriter(f);
+        Writer fw = new BufferedWriter(new FileWriter(f));
         try {
             for (int i = 0; i < nb; i++) {
                 for (int j = 0; j < objectSize; j++) {
