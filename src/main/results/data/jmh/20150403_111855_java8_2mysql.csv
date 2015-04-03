@@ -1,0 +1,9 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: db","Param: limit"
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,235626.466101,2741.437737,"ns/op",MYSQL,1
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,271775.343361,5323.024420,"ns/op",MYSQL,10
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,558770.176779,26987.762107,"ns/op",MYSQL,100
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,2353318.174732,11231.034333,"ns/op",MYSQL,1000
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,245690.314461,3138.466494,"ns/op",MYSQL,1
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,314768.934367,12328.667827,"ns/op",MYSQL,10
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,579166.741010,30421.984074,"ns/op",MYSQL,100
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,2455894.458268,11676.449579,"ns/op",MYSQL,1000

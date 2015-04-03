@@ -1,0 +1,9 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: db","Param: limit"
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,1706.869603,20.663308,"ns/op",HSQLDB,1
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,4607.872277,27.171698,"ns/op",HSQLDB,10
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,33339.153601,103.422505,"ns/op",HSQLDB,100
+"org.sfm.benchmark.db.jdbc.PureJdbcBenchmark.testQuery","avgt",1,100.000000,321852.432523,1058.430801,"ns/op",HSQLDB,1000
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,2268.608726,25.141473,"ns/op",HSQLDB,1
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,6075.771842,30.260479,"ns/op",HSQLDB,10
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,41476.526537,160.977805,"ns/op",HSQLDB,100
+"org.sfm.benchmark.db.spring.RomaBenchmark.testQuery","avgt",1,100.000000,400075.129173,2508.775404,"ns/op",HSQLDB,1000
