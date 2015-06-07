@@ -7,11 +7,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.CharSequenceReader;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Param;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.sfm.beans.FinalSmallBenchmarkObject;
 import org.sfm.beans.SmallBenchmarkObject;
@@ -41,8 +37,6 @@ public class CsvMapperBenchmark {
     private CsvMapper<SmallBenchmarkObject> noAsmMapper;
     private CsvMapper<FinalSmallBenchmarkObject> noAsmFinalMapper;
 
-    private byte[] bytes;
-	
 	private CsvSchema schema;
 	private ObjectReader oreader = new com.fasterxml.jackson.dataformat.csv.CsvMapper()
 			.reader(SmallBenchmarkObject.class);
@@ -51,9 +45,10 @@ public class CsvMapperBenchmark {
 	@Param(value={"1", "10", "100", "1000", "10000", "100000", "1000000"})
 	public int limit;
     private ColumnPositionMappingStrategy<SmallBenchmarkObject> strategy;
+	private FileReader reader;
 
-    @Setup
-	public void init() {
+	@Setup
+	public void init() throws FileNotFoundException {
 		mapper = CsvMapperFactory.newInstance().newBuilder(SmallBenchmarkObject.class)
                 .addMapping("id")
 				.addMapping("year_started")
@@ -105,90 +100,73 @@ public class CsvMapperBenchmark {
 		} catch (Exception e) {
 			throw new Error(e);
 		}
+	}
 
+	@Setup(Level.Invocation)
+	public void initReader() throws FileNotFoundException {
+		reader =  new FileReader(file);
+	}
+
+	@TearDown(Level.Invocation)
+	public void closeReader() throws IOException {
+		reader.close();
 	}
 
 	@Benchmark
 	public void testReadSfmCsvMapper(final Blackhole blackhole) throws Exception {
-		Reader reader = getReader();
-		try {
-			mapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
-					new RowHandler<SmallBenchmarkObject>() {
-						@Override
-						public void handle(SmallBenchmarkObject t) throws Exception {
-							blackhole.consume(t);
-						}
-					});
-		} finally {
-			reader.close();
-		}
+		mapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+				new RowHandler<SmallBenchmarkObject>() {
+					@Override
+					public void handle(SmallBenchmarkObject t) throws Exception {
+						blackhole.consume(t);
+					}
+				});
 	}
 
     @Benchmark
     public void testReadSfmCsvMapperNoAsm(final Blackhole blackhole) throws Exception {
-        Reader reader = getReader();
-        try {
-            noAsmMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
-                    new RowHandler<SmallBenchmarkObject>() {
-                        @Override
-                        public void handle(SmallBenchmarkObject t) throws Exception {
-                            blackhole.consume(t);
-                        }
-                    });
-        } finally {
-            reader.close();
-        }
+		noAsmMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+				new RowHandler<SmallBenchmarkObject>() {
+					@Override
+					public void handle(SmallBenchmarkObject t) throws Exception {
+						blackhole.consume(t);
+					}
+				});
     }
 
     @Benchmark
     public void testReadSfmCsvMapperFinal(final Blackhole blackhole) throws Exception {
-        Reader reader = getReader();
-        try {
-            finalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
-                    new RowHandler<FinalSmallBenchmarkObject>() {
-                        @Override
-                        public void handle(FinalSmallBenchmarkObject t) throws Exception {
-                            blackhole.consume(t);
-                        }
-                    });
-        } finally {
-            reader.close();
-        }
+		finalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+				new RowHandler<FinalSmallBenchmarkObject>() {
+					@Override
+					public void handle(FinalSmallBenchmarkObject t) throws Exception {
+						blackhole.consume(t);
+					}
+				});
     }
 
     @Benchmark
     public void testReadSfmCsvMapperNoAsmFinal(final Blackhole blackhole) throws Exception {
-        Reader reader = getReader();
-        try {
-            noAsmFinalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
-                    new RowHandler<FinalSmallBenchmarkObject>() {
+		noAsmFinalMapper.forEach(CsvParser.bufferSize(1024 * 8).reader(reader),
+				new RowHandler<FinalSmallBenchmarkObject>() {
                         @Override
                         public void handle(FinalSmallBenchmarkObject t) throws Exception {
                             blackhole.consume(t);
                         }
                     });
-        } finally {
-            reader.close();
-        }
     }
 
-	private Reader getReader() throws FileNotFoundException {
-		return new FileReader(file);
-	}
 
 	@Benchmark
 	public void testJacksonCsvMapper(final Blackhole blackhole) throws Exception {
-		Reader reader = getReader();
-		try {
+
 		MappingIterator<SmallBenchmarkObject> mi = oreader.with(schema)
 				.readValues(reader);
 
 		while (mi.hasNext()) {
 			blackhole.consume(mi.next());
 		}
-		} finally {
-			reader.close();
-		}
+
 	}
 	
 	@Benchmark
@@ -209,29 +187,19 @@ public class CsvMapperBenchmark {
 
 	    com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(parserSettings);
 
-		Reader reader = getReader();
-		try {
 	    parser.parse(reader);
-		} finally {
-			reader.close();
-		}
 	}
 	
 	@Benchmark
 	public void testOpenCsvMapper(final Blackhole blackhole) throws Exception {
 		CsvToBean<SmallBenchmarkObject> csvToBean = new CsvToBean<SmallBenchmarkObject>();
 
-		Reader reader = getReader();
-		try {
-			List<SmallBenchmarkObject> list = null;
-			CSVReader csvreader = new CSVReader(reader);
-			list = csvToBean.parse(strategy, csvreader);
+		List<SmallBenchmarkObject> list = null;
+		CSVReader csvreader = new CSVReader(reader);
+		list = csvToBean.parse(strategy, csvreader);
 
-			blackhole.consume(list);
-		}finally {
-			reader.close();
-		}
-		
+		blackhole.consume(list);
+
 	}
 
 }
