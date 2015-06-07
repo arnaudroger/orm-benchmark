@@ -1,10 +1,10 @@
 package org.sfm.benchmark.db.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.sfm.benchmark.db.jmh.ConnectionParam;
 import org.sfm.benchmark.db.jmh.DbTarget;
 
@@ -35,7 +35,7 @@ public class HibernateHelper {
 	            configuration.setProperty("hibernate.cache.use_query_cache", "false");
 	        }
 
-	        ServiceRegistry sr = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
+	        ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 	        
 			return configuration.buildSessionFactory(sr);
 		} catch (Exception e) {
