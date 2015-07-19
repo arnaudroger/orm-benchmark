@@ -125,16 +125,19 @@ questions.
 			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>sfm</artifactId>
 			<version>1.11b1</version>
+			<classifier>jdk17</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>sfm-sql2o</artifactId>
 			<version>1.11b1</version>
+			<classifier>jdk17</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.simpleflatmapper</groupId>
 			<artifactId>sfm-jooq</artifactId>
 			<version>1.11b1</version>
+			<classifier>jdk17</classifier>
 		</dependency>
 	   <dependency>
 	        <groupId>org.springframework</groupId>
