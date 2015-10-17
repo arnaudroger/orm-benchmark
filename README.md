@@ -1,3 +1,7 @@
+
+migrating to [mapping-benchmark](https://github.com/arnaudroger/mapping-benchmark) with better structure.
+
+
 orm-benchmark
 =============
 
